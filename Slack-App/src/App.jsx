@@ -1,8 +1,10 @@
 import { useState } from 'react'
-import { Sidebar } from './components/sidebar/components/Sidebar'
+import { Sidebar } from './components/sidebar/Sidebar'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Login } from './pages/Login'
 import { Register } from './pages/Register'
+import { Dashboard } from './components/Dashboard'
+import { PrivateRoutes } from './components/PrivateRoutes';
 
 import "./App.css";
 
@@ -12,13 +14,9 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/sidebar" element={<Sidebar/>}/>
+        <Route element={<PrivateRoutes />}>{Dashboard}</Route>
         <Route path="/login" element={<Login/>}/>
         <Route path="/register" element={<Register/>}/>
-
-        {/* <Route path="/home" element={<Home/>}/>
-        <Route path="/channels" element={<Channels/>}/>
-        <Route path="/dms" element={<DirectMessage/>}/> */}
       </Routes>
     </Router>
   )

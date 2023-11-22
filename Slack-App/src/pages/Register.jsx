@@ -18,7 +18,7 @@ export const Register = () => {
         password_confirmation: confirmPassword
     }
 
-    const loginToIslak = () => {
+    const registerToIslak = () => {
         //call api
         const post = {
             method: 'POST',
@@ -69,8 +69,14 @@ export const Register = () => {
         payload.password = e.target.password.value;
         payload.password_confirmation = e.target.confirmPassword.value;
         console.log(payload)
-        loginToIslak()
+        registerToIslak()
     }
+
+    useEffect(() => {
+        if (localStorage.getItem("currentUser")) {
+          navigate("/");
+        }
+      }, [navigate]);
 
     return (
         <div className="screen">

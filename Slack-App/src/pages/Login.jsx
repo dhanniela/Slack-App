@@ -46,6 +46,9 @@ export const Login = (props) => {
                     localStorage.clear();
                     localStorage.setItem('currentUser', JSON.stringify(currentUser));
 
+                    navigate("/");
+                    window.location.reload();
+
                 } else { //if !=200
                     response.json().then(json => {
                     setError(json.errors[0])
@@ -62,6 +65,12 @@ export const Login = (props) => {
         console.log(payload)
         loginToIslak()
     }
+
+    useEffect(() => {
+        if (localStorage.getItem("currentUser")) {
+          navigate("/");
+        }
+      }, [navigate]);
 
     return (
         <div className="screen">
