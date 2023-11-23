@@ -1,0 +1,70 @@
+.container{
+    width: 100vw;
+}
+
+.chat{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background: white;
+}
+
+.chat-header{
+    display: flex;
+    width: 100vw;
+    height: 10vh;
+    background: #1a1d21;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 2rem;
+    position: relative;
+    cursor: pointer;
+}
+
+.pp{
+    width: clamp(2rem, 1.714rem + 1.429vw, 3rem);
+    border-radius: .5rem;
+    margin: .4rem 1rem;
+}
+
+.username{
+    display: flex;
+    flex-direction: column;
+    margin: .6rem 0 0 0;
+}
+
+.username h2{
+    color: white;
+    font-size: clamp(0.8rem, 0.743rem + 0.286vw, 1rem);
+    margin: 0;
+}
+
+.username span{
+    color: white;
+    font-size: clamp(0.5rem, 0.443rem + 0.286vw, 0.7rem);
+}
+
+.chat-box{
+    flex: 1;
+}
+
+.chat-footer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.chat-footer textarea{
+    width: 100vw;
+    min-height: 10vh;
+    border-radius: .5rem;
+    margin: 2rem;
+    outline: none;
+    font-size: clamp(0.8rem, 0.743rem + 0.286vw, 1rem);
+    padding: .5rem 1rem;
+    border: 2px solid #1a1d21;
+}
