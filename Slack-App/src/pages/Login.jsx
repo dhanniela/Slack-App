@@ -47,23 +47,25 @@ export const Login = (props) => {
                     localStorage.setItem('currentUser', JSON.stringify(currentUser));
 
                     navigate("/");
+
                     window.location.reload();
 
                 } else { //if !=200
                     response.json().then(json => {
+
                     setError(json.errors[0])
                     })
                 }
-        })
-
-    }
+            })
+        }
 
     const prepareLogin = (e) => {
         e.preventDefault();
+
         payload.email = e.target.email.value;
         payload.password = e.target.password.value;
-        console.log(payload)
-        loginToIslak()
+        
+        loginToIslak();
     }
 
     useEffect(() => {

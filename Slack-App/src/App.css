@@ -191,7 +191,7 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background: white;
+  background: #1a1d21;
 }
 
 .chat-header {
@@ -199,6 +199,7 @@
   width: 100vw;
   height: 10vh;
   background: #1a1d21;
+  border-bottom: 1px solid white;
 }
 
 .profile {
@@ -241,17 +242,51 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+  border-radius: 0.5rem;
+  background: #222529;
+  border: 1px solid #ffffff;
+  width: 95vw;
+  margin: 1rem auto;
 }
 
 .chat-footer textarea {
-  width: 100vw;
+  background: #222529;
+  width: 90vw;
   min-height: 10vh;
-  border-radius: 0.5rem;
-  margin: 2rem;
   outline: none;
+  border: none;
+  resize: none;
   font-size: clamp(0.8rem, 0.743rem + 0.286vw, 1rem);
-  padding: 0.5rem 1rem;
-  border: 2px solid #1a1d21;
+  margin: 1rem;
+  color: white;
+}
+
+.chat-footer .shortcut-icons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #adaeaf;
+  width: 90vw;
+  margin: 0.5rem;
+}
+
+.chat-footer .attachment-icons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: clamp(5rem, 4.286rem + 1.905vw, 6rem);
+}
+
+.chat-footer .send-icon {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.icons {
+  width: clamp(1rem, 0.821rem + 0.476vw, 1.25rem);
+  height: clamp(1rem, 0.821rem + 0.476vw, 1.25rem);
 }
 
 body {

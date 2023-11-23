@@ -22,12 +22,12 @@ export const DirectMessage = () => {
                     <textarea placeholder="Type a message"></textarea>
                     <div className="shortcut-icons">
                         <div className="attachment-icons">
-                            <Paperclip />
-                            <Camera />
-                            <Mic />
+                            <Paperclip className="icons"/>
+                            <Camera className="icons"/>
+                            <Mic className="icons"/>
                         </div>
                         <div className="send-icon">
-                            <SendHorizontal />
+                            <SendHorizontal className="icons"/>
                         </div>
                     </div>
                 </div>
