@@ -1,9 +1,19 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { UserCircle2, Paperclip, Camera, Mic, SendHorizontal } from "lucide-react";
+import {getUserDmsSender} from "../components/CommonUtils"
+import {sendDms} from "../components/CommonUtils"
 
 export const DirectMessage = () => {
-    console.log("dms");
+    const [message, setMessage] = useState("");
+
+    const handleSend = (e) =>{
+        sendDms(message,4561);
+    }
+
+    const handleChange = (e) =>{
+        setMessage(e.target.value);
+    }
 
     return (
         <div class="container">
@@ -19,7 +29,7 @@ export const DirectMessage = () => {
                 </div>
                 <div class="chat-box"></div>
                 <div class="chat-footer">
-                    <textarea placeholder="Type a message"></textarea>
+                    <textarea value={message} placeholder="Type a message" onChange={handleChange} ></textarea>
                     <div className="shortcut-icons">
                         <div className="attachment-icons">
                             <Paperclip className="icons"/>
@@ -27,7 +37,7 @@ export const DirectMessage = () => {
                             <Mic className="icons"/>
                         </div>
                         <div className="send-icon">
-                            <SendHorizontal className="icons"/>
+                            <SendHorizontal onClick={handleSend} className="icons"/>
                         </div>
                     </div>
                 </div>
