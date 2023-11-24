@@ -8,8 +8,7 @@ export const Dashboard = (
     <Route>
         <Route path="/" element={<Sidebar/>}/>
         <Route path="/dms" element={<DirectMessage/>}/>
-        <Route path="/sideDM" element={<DMSidebar/>}/>
-
+        <Route path="/sideDm" element={<DMSidebar/>}/>
     </Route>
 );
 
