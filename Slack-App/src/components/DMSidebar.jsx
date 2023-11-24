@@ -21,3 +21,21 @@ export const DMSidebar = () => {
         </div>
     )
 }
+
+
+const DMSideLi = (props) => {
+    const {pic, name, receiverId, setChatWindow, setChannelId, setChannelName} = props;
+
+    const changeChatWindow = (e) => {
+        e.preventDefault();
+        setChannelId(receiverId);
+        setChannelName(name);
+        setChatWindow('dm');
+    }
+
+    return (
+        <li className="dm-item">
+            <a href="#" data-receiver-id={receiverId} onClick={changeChatWindow}><img src={pic} alt="" /> {name}</a>
+        </li>
+    )
+}
