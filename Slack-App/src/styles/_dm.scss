@@ -1,4 +1,4 @@
-.container{
+.dm-container{
     width: 100vw;
 }
 
@@ -18,7 +18,7 @@
     border-bottom: 1px solid white;
 }
 
-.profile {
+.chat-profile {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -33,19 +33,19 @@
     margin: .4rem 1rem;
 }
 
-.username{
+.chat-name{
     display: flex;
     flex-direction: column;
     margin: .6rem 0 0 0;
 }
 
-.username h2{
+.chat-name h2{
     color: white;
     font-size: clamp(0.8rem, 0.743rem + 0.286vw, 1rem);
     margin: 0;
 }
 
-.username span{
+.chat-name span{
     color: white;
     font-size: clamp(0.5rem, 0.443rem + 0.286vw, 0.7rem);
 }
@@ -100,7 +100,7 @@
     align-items: center;
 }
 
-.icons{
+.chat-footer .icons{
     width: clamp(1rem, 0.821rem + 0.476vw, 1.25rem);
     height: clamp(1rem, 0.821rem + 0.476vw, 1.25rem);
 }

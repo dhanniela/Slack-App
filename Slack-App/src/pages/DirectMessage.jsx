@@ -6,12 +6,12 @@ export const DirectMessage = () => {
     console.log("dms");
 
     return (
-        <div class="container">
+        <div class="dm-container">
             <div class="chat">
                 <div class="chat-header">
-                    <div class="profile">
+                    <div class="chat-profile">
                         <img className="pp" src="src/assets/images/dhanniela.jpg" alt={<UserCircle2/>}/>
-                        <div className="username">
+                        <div className="chat-name">
                             <h2>tj maurea dhanniela</h2>
                             <span>active</span>
                         </div>
