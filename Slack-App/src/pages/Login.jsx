@@ -34,17 +34,22 @@ export const Login = (props) => {
 
                 //if 200 response
                 if(response.status == 200){
+                    let userId = "";
 
-                    const currentUser = {
-                        email: email,
-                        uid: response.headers.get('uid'),
-                        expiry: response.headers.get('expiry'),
-                        accessToken: response.headers.get('access-token'),
-                        client: response.headers.get('client')
-                    }
+                    response.json().then(json => {
 
-                    localStorage.clear();
-                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                        const currentUser = {
+                            email: email,
+                            id: json.data.id,
+                            uid: response.headers.get('uid'),
+                            expiry: response.headers.get('expiry'),
+                            accessToken: response.headers.get('access-token'),
+                            client: response.headers.get('client')
+                        }
+
+                        localStorage.clear();
+                        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    })
 
                     navigate("/");
 
