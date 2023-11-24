@@ -6,7 +6,6 @@ const getHeadersFromLocalStorage = () => {
 
 const currentUser = getHeadersFromLocalStorage();
 
-//onclick to ilalagay
 export const getUserDmsSender = () => {
     const get = {
         method: 'GET', 
@@ -19,22 +18,23 @@ export const getUserDmsSender = () => {
         }
     }
 
-    //target id yung ibang tao
-    const url = `http://206.189.91.54/api/v1/messages?receiver_id=${4561}&receiver_class=User`;
+    const url = `http://206.189.91.54/api/v1/messages?receiver_id=${currentUser.id}&receiver_class=User`;
     
     fetch(url, get)
-        .then(response => {
-            response.json().then(json => {
-                console.log(json);
-            })
-        });
+            .then(response => {
+                response.json().then(json => {
+                        console.log(json);
+                        //ireturn na lahat buong payload kasi ipaprocess naman sa sidebar lahat kahit nakatago pwede isave
+                        //return dms
+                    })
+            });
 }
 
 export const sendDms = (message, receiverId) => {
     //hardcode muna until magawa yung sidebar
     //tatanggalin pag nakakaselect na ng ichachat
-    // receiverId = 4561;
-    console.log(currentUser)
+    receiverId = 4558;
+
     const payload = {
         receiver_id: receiverId,
         receiver_class: "User",
@@ -43,9 +43,8 @@ export const sendDms = (message, receiverId) => {
 
     const post  = {
         method: 'POST', 
-        // mode: 'cors',
+        mode: 'cors',
         headers: {
-            'Content-Type': 'application/json',
             'access-token' : currentUser.accessToken,  
             'client' : currentUser.client, 
             'expiry' : currentUser.expiry, 
@@ -57,12 +56,24 @@ export const sendDms = (message, receiverId) => {
     const url = `http://206.189.91.54/api/v1/messages`;
     
     fetch(url, post)
-    .then(res=>res.json())
-    .then(data=> console.log(data))
-    .catch(err=> console.log(err))
+            .then(response => {
+                response.json().then(json => {
+                        console.log(json);
+                    })
+            });
 }
 
-export const getAllUsers = async() => {
+export const getAllUsers = () => {
+    //hardcode muna until magawa yung sidebar
+    //tatanggalin pag nakakaselect na ng ichachat
+    receiverId = 4558;
+
+    const payload = {
+        receiver_id: receiverId,
+        receiver_class: "User",
+        body: message
+    }
+
     const get  = {
         method: 'GET', 
         mode: 'cors',
@@ -71,20 +82,18 @@ export const getAllUsers = async() => {
             'client' : currentUser.client, 
             'expiry' : currentUser.expiry, 
             'uid' : currentUser.uid
-        }
+        },
+        body: JSON.stringify(payload)
     }
-        
+
     const url = `http://206.189.91.54/api/v1/users`;
     
     fetch(url, get)
-    .then(res=>res.json())
-    .then(data => 
-            {
-                return data;
-            }
-        )
-    .catch(err=> console.log(err))
-          
+            .then(response => {
+                response.json().then(json => {
+                        console.log(json);
+                    })
+            });
 }
 
 

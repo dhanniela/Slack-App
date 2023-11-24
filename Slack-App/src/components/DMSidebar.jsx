@@ -1,10 +1,7 @@
-import React, { useEffect, useState} from "react";
+import React, { useEffect } from "react";
 import { Search, PenSquare, UserCircle2 } from "lucide-react";
-import { getAllUsers } from "./CommonUtils";
 
-export const DMSidebar = async() => {
-
-    const userData = await getAllUsers().then(users => {console.log(users)});
+export const DMSidebar = () => {
 
     return (
         <div className="dmSidebar-container">
@@ -19,14 +16,7 @@ export const DMSidebar = async() => {
                 </div>
             </div>
             <div className="dms-list-container">
-
-                {userData.map((userDatas) =>
-                    <DMSideLi
-                        userInfo = {userDatas}
-                    />
-                )}
-                
-                {/* <div className="dms-list">
+                <div className="dms-list">
                     <img className="dm-pp" src="src/assets/images/dhanniela.jpg" alt={<UserCircle2/>}/>
                     <div className="right">
                         <div className="dm-chat-name">
@@ -42,7 +32,7 @@ export const DMSidebar = async() => {
                             </span>
                         </div>
                     </div>
-                </div> */}
+                </div>
             </div>
         </div>
     )
@@ -50,33 +40,18 @@ export const DMSidebar = async() => {
 
 
 const DMSideLi = (props) => {
-    const {userData} = props.userInfo;
+    const {pic, name, receiverId, setChatWindow, setChannelId, setChannelName} = props;
+
+    const changeChatWindow = (e) => {
+        e.preventDefault();
+        setChannelId(receiverId);
+        setChannelName(name);
+        setChatWindow('dm');
+    }
 
     return (
         <li className="dm-item">
-            <div className="dms-list">
-                <img className="dm-pp" src="src/assets/images/dhanniela.jpg" alt={<UserCircle2/>}/>
-                <div className="right">
-                    <div className="dm-chat-name">
-                        <h5>{userData.email}</h5>
-                        <span>September 28</span>
-                    </div>
-                    <div className="dm-truncate">
-                        <span>hellohellohellohellohello
-                        hellohellohellohellohellohello
-                        hellohellohellohellohellohello
-                        hellohellohellohellohellohello
-                        hellohellohellohellohellohello
-                        </span>
-                    </div>
-                </div>
-            </div>
+            <a href="#" data-receiver-id={receiverId} onClick={changeChatWindow}><img src={pic} alt="" /> {name}</a>
         </li>
     )
-}
-
-const assembleUl = () => {
-    for (let i = 1; i <= 100; i++ ){
-        
-    }
 }
