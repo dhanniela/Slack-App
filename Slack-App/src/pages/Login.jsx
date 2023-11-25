@@ -25,44 +25,39 @@ export const Login = (props) => {
             },
             body: JSON.stringify(payload)
         }
-
-
         //get response
         fetch('http://206.189.91.54/api/v1/auth/sign_in', post)
-            .then(response => {
-                console.log(response)
+        .then(response => {
+            console.log(response)
+            //if 200 response
+            if(response.status == 200){
+                let userId = "";
 
-                //if 200 response
-                if(response.status == 200){
-                    let userId = "";
+                response.json().then(json => {
 
-                    response.json().then(json => {
+                    const currentUser = {
+                        email: email,
+                        id: json.data.id,
+                        uid: response.headers.get('uid'),
+                        expiry: response.headers.get('expiry'),
+                        accessToken: response.headers.get('access-token'),
+                        client: response.headers.get('client')
+                    }
 
-                        const currentUser = {
-                            email: email,
-                            id: json.data.id,
-                            uid: response.headers.get('uid'),
-                            expiry: response.headers.get('expiry'),
-                            accessToken: response.headers.get('access-token'),
-                            client: response.headers.get('client')
-                        }
+                    localStorage.clear();
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                })
 
-                        localStorage.clear();
-                        localStorage.setItem('currentUser', JSON.stringify(currentUser));
-                    })
+                navigate("/");
 
-                    navigate("/");
-
-                    window.location.reload();
-
-                } else { //if !=200
-                    response.json().then(json => {
-
+                window.location.reload();
+            } else { //if !=200
+                response.json().then(json => {
                     setError(json.errors[0])
-                    })
-                }
-            })
-        }
+                })
+            }
+        })
+    }
 
     const prepareLogin = (e) => {
         e.preventDefault();
@@ -75,9 +70,9 @@ export const Login = (props) => {
 
     useEffect(() => {
         if (localStorage.getItem("currentUser")) {
-          navigate("/");
+            navigate("/");
         }
-      }, [navigate]);
+    }, [navigate]);
 
     return (
         <div className="screen">

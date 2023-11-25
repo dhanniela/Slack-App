@@ -4,7 +4,6 @@ import { KeyRound, Mail, CheckCircle2, XCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export const Register = () => {
-
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -28,55 +27,52 @@ export const Register = () => {
             },
             body: JSON.stringify(payload)
         }
-
-
         //get response
         fetch('http://206.189.91.54/api/v1/auth', post)
-            .then(response => {
-                console.log(response)
+        .then(response => {
+            console.log(response)
+            //if 200 response
+            if(response.status == 200){
+                localStorage.clear();
 
-                //if 200 response
-                if(response.status == 200){
-                    localStorage.clear();
+                setNotif("Account succesfully created")
+                // change to link to login
+                setTimeout(() => {
+                    navigate("/login");
+                }, 3000);
 
-                    setNotif("Account succesfully created")
-                    // change to link to login
-                    setTimeout(() => {
-                        navigate("/login");
-                    }, 3000);
-                    
+            } else { //if !=200
+                response.json().then(json => {
+                    console.log(json);
 
-                } else { //if !=200
-                    response.json().then(json => {
-                        console.log(json);
+                    let errorMessage = "";
 
-                        let errorMessage = "";
+                    for(const message of json.errors.full_messages){
+                        errorMessage = errorMessage + message + '\n';
 
-                        for(const message of json.errors.full_messages){
-                            errorMessage = errorMessage + message + '\n';
-
-                            setNotif(errorMessage);
-                        }
-                    })
-                }
+                        setNotif(errorMessage);
+                    }
+                })
+            }
         })
 
     }
 
     const prepareRegister = (e) => {
         e.preventDefault();
+
         payload.email = e.target.email.value;
         payload.password = e.target.password.value;
         payload.password_confirmation = e.target.confirmPassword.value;
-        console.log(payload)
+
         registerToIslak()
     }
 
     useEffect(() => {
         if (localStorage.getItem("currentUser")) {
-          navigate("/");
+            navigate("/");
         }
-      }, [navigate]);
+    }, [navigate]);
 
     return (
         <div className="screen">

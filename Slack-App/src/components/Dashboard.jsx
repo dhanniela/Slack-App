@@ -9,7 +9,6 @@ export const Dashboard = (
         <Route path="/" element={<Sidebar/>}/>
         <Route path="/dms" element={<DirectMessage/>}/>
         <Route path="/sideDM" element={<DMSidebar/>}/>
-
     </Route>
 );
 

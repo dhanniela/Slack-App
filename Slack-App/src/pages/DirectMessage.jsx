@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { UserCircle2, Paperclip, Camera, Mic, SendHorizontal } from "lucide-react";
-import {getUserDmsSender} from "../components/CommonUtils"
-import {sendDms} from "../components/CommonUtils"
+import { getUserDmsSender } from "../components/CommonUtils"
+import { sendDms } from "../components/CommonUtils"
 
 export const DirectMessage = () => {
     const [message, setMessage] = useState("");
 
     const handleSend = (e) =>{
-        sendDms(message,4561);
+        sendDms(message,receiverId);
     }
 
     const handleChange = (e) =>{

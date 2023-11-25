@@ -5,9 +5,6 @@ import { Login } from './pages/Login'
 import { Register } from './pages/Register'
 import { Dashboard } from './components/Dashboard'
 import { PrivateRoutes } from './components/PrivateRoutes';
-import { DMSidebar } from "./components/DMSidebar";
-
-
 import "./App.css";
 
 function App() {
@@ -19,7 +16,6 @@ function App() {
         <Route element={<PrivateRoutes />}>{Dashboard}</Route>
         <Route path="/login" element={<Login/>}/>
         <Route path="/register" element={<Register/>}/>
-        <Route path="/side" element={<DMSidebar/>}/>
       </Routes>
     </Router>
   )

@@ -21,18 +21,14 @@ export const getUserDmsSender = () => {
     const url = `http://206.189.91.54/api/v1/messages?receiver_id=${currentUser.id}&receiver_class=User`;
     
     fetch(url, get)
-            .then(response => {
-                response.json().then(json => {
-                        console.log(json);
-                        //ireturn na lahat buong payload kasi ipaprocess naman sa sidebar lahat kahit nakatago pwede isave
-                        //return dms
-                    })
-            });
+    .then(response => {
+        response.json().then(json => {
+            console.log(json);
+        })
+    });
 }
 
 export const sendDms = (message, receiverId) => {
-    //hardcode muna until magawa yung sidebar
-    //tatanggalin pag nakakaselect na ng ichachat
     receiverId = 4558;
 
     const payload = {
@@ -45,6 +41,7 @@ export const sendDms = (message, receiverId) => {
         method: 'POST', 
         mode: 'cors',
         headers: {
+            'Content-Type': 'application/json',
             'access-token' : currentUser.accessToken,  
             'client' : currentUser.client, 
             'expiry' : currentUser.expiry, 
@@ -56,16 +53,12 @@ export const sendDms = (message, receiverId) => {
     const url = `http://206.189.91.54/api/v1/messages`;
     
     fetch(url, post)
-            .then(response => {
-                response.json().then(json => {
-                        console.log(json);
-                    })
-            });
+    .then(res=>res.json())
+    .then(data=> console.log(data))
+    .catch(err=> console.log(err))
 }
 
 export const getAllUsers = () => {
-    //hardcode muna until magawa yung sidebar
-    //tatanggalin pag nakakaselect na ng ichachat
     receiverId = 4558;
 
     const payload = {
@@ -89,40 +82,36 @@ export const getAllUsers = () => {
     const url = `http://206.189.91.54/api/v1/users`;
     
     fetch(url, get)
-            .then(response => {
-                response.json().then(json => {
-                        console.log(json);
-                    })
-            });
+    .then(response => {
+        response.json().then(json => {
+                console.log(json);
+            })
+    });
 }
 
 
+export const getUserChannels = () => {
+    const currentUser = getHeadersFromLocalStorage();
 
+    const get = {
+        method: 'GET', 
+        mode: 'cors',
+        headers: {
+            'access-token' : currentUser.accessToken,  
+            'client' : currentUser.client, 
+            'expiry' : currentUser.expiry, 
+            'uid' : currentUser.uid
+        }
+    }
 
-// export const getUserChannels = () => {
-//     const currentUser = getHeadersFromLocalStorage();
-
-//     const get = {
-//         method: 'GET', 
-//         mode: 'cors',
-//         headers: {
-//             'access-token' : currentUser.accessToken,  
-//             'client' : currentUser.client, 
-//             'expiry' : currentUser.expiry, 
-//             'uid' : currentUser.uid
-//         }
-//     }
-
-//     const url = `http://206.189.91.54/api/v1/messages?receiver_id=${currentUser.id}&receiver_class=User`;
+    const url = `http://206.189.91.54/api/v1/messages?receiver_id=${currentUser.id}&receiver_class=User`;
     
-//     fetch(url, get)
-//             .then(response => {
-//                 response.json().then(json => {
-//                         console.log(json);
-
-//                         //return dms
-//                     })
-//             });
-// }
+    fetch(url, get)
+    .then(response => {
+        response.json().then(json => {
+            console.log(json);
+        })
+    });
+}
 
 
