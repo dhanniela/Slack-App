@@ -1,12 +1,10 @@
 @import url("https://fonts.cdnfonts.com/css/poppins");
 $fontStyle: "Poppins", sans-serif;
 
-
-
 body{
     font-family: $fontStyle;
     background-color: white;
-    overflow: hidden; 
+    overflow: hidden;
     margin: 0;
     padding: 0;
 }
@@ -41,6 +39,26 @@ a{
 	background-color: #6f7372;
     border-radius: .5rem;
 }
+// 
+// 
+
+.body-content{
+    display: flex;
+    width: 100vw;
+}
+
+.content {
+    // border: 1px solid red;
+    width: clamp(9.75rem, 31.143rem + 109.048vw, 67rem);
+    overflow: auto;
+  }
+  
+//   .content-container {
+//     height: 80vh;
+//     width: 80vw;
+//     border-radius: 1rem;
+    
+//   }
 
 @import "styles/sidebar";
 @import "styles/login";
