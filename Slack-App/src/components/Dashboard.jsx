@@ -11,9 +11,7 @@ export const Dashboard = (
     <Route path="/" element={<DashboardWrapper />}>
         {/* <Route path="/" element={<Sidebar/>}/> */}
         <Route path="/sidedm" element={<DMSidebar/>}/>
-        {/* <Route path="/sidechan" element={<ChannelSidebar/>}/> */}
-        <Route path="/dms" element={<DirectMessage/>}/>
-        {/* <Route path="/channels" element={<Channels/>}/> */}
+        <Route path="/dms/:id" element={<DirectMessage/>}/>
     </Route>
 );
 
