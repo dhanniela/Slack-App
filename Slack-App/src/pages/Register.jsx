@@ -39,7 +39,7 @@ export const Register = () => {
                 // change to link to login
                 setTimeout(() => {
                     navigate("/login");
-                }, 3000);
+                }, 5000);
             } else { //if !=200
                 response.json().then(json => {
                     console.log(json);

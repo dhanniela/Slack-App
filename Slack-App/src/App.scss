@@ -1,6 +1,8 @@
 @import url("https://fonts.cdnfonts.com/css/poppins");
 $fontStyle: "Poppins", sans-serif;
 
+
+
 body{
     font-family: $fontStyle;
     background-color: white;
@@ -23,7 +25,25 @@ a{
     color: inherit;
 }
 
+::-webkit-scrollbar-track
+{
+    display: none;
+}
+
+::-webkit-scrollbar
+{
+    width: clamp(0.25rem, 0.071rem + 0.476vw, 0.5rem);
+	background: none;
+}
+
+::-webkit-scrollbar-thumb
+{
+	background-color: #6f7372;
+    border-radius: .5rem;
+}
+
 @import "styles/sidebar";
 @import "styles/login";
 @import "styles/dm";
 @import "styles/dmSidebar";
+@import "styles/spinner";

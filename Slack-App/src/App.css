@@ -21,6 +21,20 @@ a {
   color: inherit;
 }
 
+::-webkit-scrollbar-track {
+  display: none;
+}
+
+::-webkit-scrollbar {
+  width: clamp(0.25rem, 0.071rem + 0.476vw, 0.5rem);
+  background: none;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #6f7372;
+  border-radius: 0.5rem;
+}
+
 .sidebar_main {
   display: flex;
   align-items: center;
@@ -355,6 +369,7 @@ a {
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
+  margin-left: clamp(0.25rem, 0.071rem + 0.476vw, 0.5rem);
 }
 
 .dms-list-container ul {
@@ -398,6 +413,7 @@ a {
 
 .dm-chat-name span {
   font-size: clamp(0.2rem, 0.029rem + 0.857vw, 0.8rem);
+  margin-right: 0.5rem;
 }
 
 .dm-truncate {
@@ -408,4 +424,29 @@ a {
   overflow: hidden;
   -webkit-line-clamp: 2;
   text-overflow: ellipsis;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }/*# sourceMappingURL=App.css.map */

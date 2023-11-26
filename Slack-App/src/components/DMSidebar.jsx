@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Search, PenSquare, UserCircle2 } from "lucide-react";
 import { getAllUsers } from "./CommonUtils";
 import { getHeadersFromLocalStorage } from "./CommonUtils";
+import { Spinner } from "./Spinner";
 
 export const DMSidebar = () => {
     const [users, setUsers] = useState([]);
@@ -37,7 +38,23 @@ export const DMSidebar = () => {
     }, []);
 
     if(loading) {
-        return <p> Loading ...</p>;
+        return <div className="dmSidebar-container">
+        <div className="dmSidebar-header">
+            <h2>Direct messages</h2>
+            <PenSquare className="icons"/>
+        </div>
+
+        <div className="dm-search">
+            <div className="dm-searchBar">
+                <Search className="icons"/>
+                <input id="search-dm" type="text" placeholder="Find a DM"/>
+            </div>
+        </div>
+
+        <div className="dms-list-container">
+            <Spinner />
+        </div>
+    </div>
     }
 
     else {
@@ -68,7 +85,6 @@ export const DMSidebar = () => {
         )
     }
 }
-
 
 const DMSideLi = (props) => {
     const userInfo = props.userInfo;
