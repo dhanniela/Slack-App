@@ -4,12 +4,17 @@ import { Search, PenSquare, UserCircle2 } from "lucide-react";
 import { getAllUsers } from "./CommonUtils";
 import { getHeadersFromLocalStorage } from "./CommonUtils";
 import { Spinner } from "./Spinner";
+import _debounce from 'lodash/debounce';
+import { useNavigate } from "react-router-dom/dist";
 
 export const DMSidebar = () => {
     const [users, setUsers] = useState([]);
+    const [originalUsers, setOriginalUsers] = useState([]);
+    const [searchTerm, setSearchTerm] = useState([]);
     const [loading, setLoading] = useState(true);
     const currentUser = getHeadersFromLocalStorage();
 
+    //GET USERS
     useEffect(() => {
         const fetchUsers = async () => {
             const get  = {
@@ -27,6 +32,7 @@ export const DMSidebar = () => {
                 const data = await response.json();
 
                 setUsers(data.data);
+                setOriginalUsers(data.data);
             } catch (error) {
                 console.error(`Error fetching users:`, error);
             } finally {
@@ -58,6 +64,30 @@ export const DMSidebar = () => {
     }
 
     else {
+        const searchUsers = (search,userArr) => {
+            const regex = new RegExp(search, 'i');
+        
+            const filteredResults = userArr.filter(
+                (user) => regex.test(user.email)
+              );
+        
+            setUsers(filteredResults);
+        }
+
+        const handleSearch = (value) => {
+            searchUsers(value,originalUsers);
+        };
+
+        const debouncedSearch = _debounce(handleSearch, 2000);
+
+        const handleChange = (event) => {
+            const { value } = event.target;
+            setSearchTerm(value);
+        
+
+            debouncedSearch(value);
+          };
+
         return (
             <div className="dmSidebar-container">
                 <div className="dmSidebar-header">
@@ -68,7 +98,7 @@ export const DMSidebar = () => {
                 <div className="dm-search">
                     <div className="dm-searchBar">
                         <Search className="icons"/>
-                        <input id="search-dm" type="text" placeholder="Find a DM"/>
+                        <input onChange={handleChange} id="search-dm" type="text" placeholder="Find a DM"/>
                     </div>
                 </div>
 
@@ -76,7 +106,7 @@ export const DMSidebar = () => {
                     <ul>
                         {users.map(userData => {
                             return (<>
-                                <DMSideLi userInfo = {userData.email}/>
+                                <DMSideLi userInfo = {userData}/>
                             </>)}
                         )}
                     </ul>
@@ -89,13 +119,19 @@ export const DMSidebar = () => {
 const DMSideLi = (props) => {
     const userInfo = props.userInfo;
 
+    const navigate = useNavigate();
+
+    const handeClick = () => {
+        navigate(`/dms/${userInfo.id}`) 
+    }
+
     return (
-        <li className="dm-item">
+        <li onClick={handeClick} className="dm-item">
             <div className="dms-list">
                 <img className="dm-pp" src="src/assets/images/profile.jpg" alt={<UserCircle2/>}/>
                 <div className="right">
                     <div className="dm-chat-name">
-                        <h5>{userInfo}</h5>
+                        <h5>{userInfo.email}</h5>
                         <span>September 28</span>
                     </div>
                     <div className="dm-truncate">
@@ -106,3 +142,4 @@ const DMSideLi = (props) => {
         </li>
     )
 }
+
