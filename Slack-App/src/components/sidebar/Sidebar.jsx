@@ -11,6 +11,7 @@ export const Sidebar = () => {
     }
 
     return (
+        <div className="sidebar-container">
         <ul className="sidebar_main">
             <CustomLink to="/profile">
                 <UserCircle2 className="sidebar_icon"/><br/>Profile
@@ -32,5 +33,6 @@ export const Sidebar = () => {
                 <LogOut className="logout-icon" />
             </a>
         </ul>
+        </div>
     );
 }
