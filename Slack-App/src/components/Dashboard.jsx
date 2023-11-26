@@ -11,7 +11,7 @@ export const Dashboard = (
     <Route path="/" element={<DashboardWrapper />}>
         {/* <Route path="/" element={<Sidebar/>}/> */}
         <Route path="/sidedm" element={<DMSidebar/>}/>
-        <Route path="/dms/:id" element={<DirectMessage/>}/>
+        <Route path="/dms/:receiverId" element={<DirectMessage/>}/>
     </Route>
 );
 

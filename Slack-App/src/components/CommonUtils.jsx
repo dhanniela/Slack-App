@@ -4,6 +4,19 @@ export const getHeadersFromLocalStorage = () => {
     return currentUser;
 }
 
+
+export const extractHourAndMinutes = (dateString) => {
+    const dateObj = new Date(dateString);
+    const hours = dateObj.getHours();
+    const minutes = dateObj.getMinutes();
+
+    // Format the hours and minutes with leading zeros if needed
+    const formattedHours = String(hours).padStart(2, '0');
+    const formattedMinutes = String(minutes).padStart(2, '0');
+
+    return `${formattedHours}:${formattedMinutes}`;
+}
+
 const currentUser = getHeadersFromLocalStorage();
 
 //onclick to ilalagay
@@ -31,10 +44,6 @@ export const getUserDmsSender = () => {
 }
 
 export const sendDms = (message, receiverId) => {
-    //hardcode muna until magawa yung sidebar
-    //tatanggalin pag nakakaselect na ng ichachat
-    // receiverId = 4561;
-    console.log(currentUser)
     const payload = {
         receiver_id: receiverId,
         receiver_class: "User",
