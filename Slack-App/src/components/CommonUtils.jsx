@@ -1,4 +1,4 @@
-const getHeadersFromLocalStorage = () => {
+export const getHeadersFromLocalStorage = () => {
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
     return currentUser;
@@ -23,11 +23,11 @@ export const getUserDmsSender = () => {
     const url = `http://206.189.91.54/api/v1/messages?receiver_id=${4561}&receiver_class=User`;
     
     fetch(url, get)
-        .then(response => {
-            response.json().then(json => {
-                console.log(json);
-            })
-        });
+    .then(response => {
+        response.json().then(json => {
+            console.log(json);
+        })
+    });
 }
 
 export const sendDms = (message, receiverId) => {
@@ -43,7 +43,7 @@ export const sendDms = (message, receiverId) => {
 
     const post  = {
         method: 'POST', 
-        // mode: 'cors',
+        mode: 'cors',
         headers: {
             'Content-Type': 'application/json',
             'access-token' : currentUser.accessToken,  
@@ -79,41 +79,37 @@ export const getAllUsers = async() => {
     fetch(url, get)
     .then(res=>res.json())
     .then(data => 
-            {
-                return data;
-            }
-        )
-    .catch(err=> console.log(err))
-          
+        {
+            return data;
+        }
+    )
+    .catch(err=> console.log(err))    
 }
 
+export const getUserChannels = () => {
+    const currentUser = getHeadersFromLocalStorage();
 
+    const get = {
+        method: 'GET', 
+        mode: 'cors',
+        headers: {
+            'access-token' : currentUser.accessToken,  
+            'client' : currentUser.client, 
+            'expiry' : currentUser.expiry, 
+            'uid' : currentUser.uid
+        }
+    }
 
-
-// export const getUserChannels = () => {
-//     const currentUser = getHeadersFromLocalStorage();
-
-//     const get = {
-//         method: 'GET', 
-//         mode: 'cors',
-//         headers: {
-//             'access-token' : currentUser.accessToken,  
-//             'client' : currentUser.client, 
-//             'expiry' : currentUser.expiry, 
-//             'uid' : currentUser.uid
-//         }
-//     }
-
-//     const url = `http://206.189.91.54/api/v1/messages?receiver_id=${currentUser.id}&receiver_class=User`;
+    const url = `http://206.189.91.54/api/v1/messages?receiver_id=${currentUser.id}&receiver_class=User`;
     
-//     fetch(url, get)
-//             .then(response => {
-//                 response.json().then(json => {
-//                         console.log(json);
+    fetch(url, get)
+    .then(response => {
+        response.json().then(json => {
+            console.log(json);
 
-//                         //return dms
-//                     })
-//             });
-// }
+            //return dms
+        })
+    });
+}
 
 

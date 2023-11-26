@@ -57,11 +57,19 @@
     width: clamp(5.5rem, 0.5rem + 25vw, 23rem);
     outline: none;
     border: none;
-    color: rgba(255, 255, 255, 0.728);
+    color: #ababad;
     background: transparent;
 }
+
 .dms-list-container{
     height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.dms-list-container ul{
+    margin: 0;
+    padding: 0;
 }
 
 .dms-list{
@@ -70,6 +78,7 @@
     color: white;
     padding: clamp(0.25rem, 0.036rem + 1.071vw, 1rem) 0;
     background-color: #424243;
+    border-bottom: 1px solid #ababad;
 }
 
 .dm-pp{
@@ -102,11 +111,12 @@
 }
 
 .dm-truncate{
-    display: block;
     font-size: clamp(0.2rem, 0.029rem + 0.857vw, 0.8rem);
-    width: 25vw;
-    white-space: nowrap;
+    width: 20vw;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
     overflow: hidden;
+    -webkit-line-clamp: 2;
     text-overflow: ellipsis;
 }
 

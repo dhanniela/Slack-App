@@ -7,8 +7,8 @@ import { DMSidebar } from "./DMSidebar";
 export const Dashboard = (
     <Route>
         <Route path="/" element={<Sidebar/>}/>
+        <Route path="/side" element={<DMSidebar/>}/>
         <Route path="/dms" element={<DirectMessage/>}/>
-        <Route path="/sideDm" element={<DMSidebar/>}/>
     </Route>
 );
 

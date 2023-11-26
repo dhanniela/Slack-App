@@ -19,7 +19,6 @@ function App() {
         <Route element={<PrivateRoutes />}>{Dashboard}</Route>
         <Route path="/login" element={<Login/>}/>
         <Route path="/register" element={<Register/>}/>
-        <Route path="/side" element={<DMSidebar/>}/>
       </Routes>
     </Router>
   )

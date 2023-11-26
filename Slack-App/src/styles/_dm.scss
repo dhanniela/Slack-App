@@ -1,8 +1,4 @@
-.dm-container{
-    width: 100vw;
-}
-
-.chat{
+.chat-container{
     display: flex;
     flex-direction: column;
     height: 100vh;
@@ -91,7 +87,7 @@
     display: flex;  
     justify-content: space-between;
     align-items: center;
-    width: clamp(5rem, 4.286rem + 1.905vw, 6rem);
+    width: clamp(9rem, 4.714rem + 11.429vw, 15rem);
 }
 
 .chat-footer .send-icon{
@@ -103,4 +99,9 @@
 .chat-footer .icons{
     width: clamp(1rem, 0.821rem + 0.476vw, 1.25rem);
     height: clamp(1rem, 0.821rem + 0.476vw, 1.25rem);
+}
+
+.attachment-icons span{
+    font-size: clamp(1.2rem, 0.986rem + 0.571vw, 1.5rem);
+    font-weight: 10;
 }

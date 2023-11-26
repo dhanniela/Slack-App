@@ -3,7 +3,7 @@ import { UserCircle2, Home, MessagesSquare, Hash, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export const Sidebar = () => {
-    const navigate = useNavigate(); // Initialize navigate hook
+    const navigate = useNavigate();
     
     const handleLogout = () => {
         localStorage.clear();
@@ -24,8 +24,7 @@ export const Sidebar = () => {
                 <Hash className="sidebar_icon"/><br/>Channels
             </CustomLink>
 
-            {/* <CustomLink to="/dms"> */}
-            <CustomLink to="/sideDM">
+            <CustomLink to="/dms">
                 <MessagesSquare className="sidebar_icon"/><br/>DM's
             </CustomLink>
             
