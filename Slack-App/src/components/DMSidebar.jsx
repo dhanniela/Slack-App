@@ -6,6 +6,7 @@ import { getHeadersFromLocalStorage } from "./CommonUtils";
 import { Spinner } from "./Spinner";
 import _debounce from 'lodash/debounce';
 import { useNavigate } from "react-router-dom/dist";
+import { useCallback } from "react";
 
 export const DMSidebar = () => {
     const [users, setUsers] = useState([]);
@@ -13,6 +14,8 @@ export const DMSidebar = () => {
     const [searchTerm, setSearchTerm] = useState([]);
     const [loading, setLoading] = useState(true);
     const currentUser = getHeadersFromLocalStorage();
+    const navigate = useNavigate();
+    let latestUserId = 0;
 
     //GET USERS
     useEffect(() => {
@@ -42,6 +45,18 @@ export const DMSidebar = () => {
         
         fetchUsers();
     }, []);
+
+    const showDm = useCallback(() => { 
+        console.log(users);
+        navigate(`/dms/${users[0].id}`);
+    }, []);
+
+    useEffect(() => {
+        if(!loading){
+            console.log(users);
+            navigate(`/dms/${users[0].id}`);
+        }
+    }, [loading,false]);
 
     if(loading) {
         return <div className="dmSidebar-container">

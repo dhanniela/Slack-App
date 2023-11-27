@@ -51,7 +51,6 @@ export const DirectMessage = () => {
     };
 
     useEffect(() => {
-        
         setTargetId(receiverId, () => {
             console.log('State updated:', paramValue);
           });

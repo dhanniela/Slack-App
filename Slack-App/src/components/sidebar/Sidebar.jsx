@@ -25,7 +25,7 @@ export const Sidebar = () => {
                 <Hash className="sidebar_icon"/><br/>Channels
             </CustomLink>
 
-            <CustomLink to="/dms/:receiverId">
+            <CustomLink to="/sidedm">
                 <MessagesSquare className="sidebar_icon"/><br/>DM's
             </CustomLink>
             
