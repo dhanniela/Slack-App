@@ -143,7 +143,7 @@ const DMSideLi = (props) => {
     return (
         <li onClick={handeClick} className="dm-item">
             <div className="dms-list">
-                <img className="dm-pp" src="src/assets/images/profile.jpg" alt={<UserCircle2/>}/>
+                <img className="dm-pp" src="src/assets/images/profile.jpg" alt="pp"/>
                 <div className="right">
                     <div className="dm-chat-name">
                         <h5>{userInfo.email}</h5>

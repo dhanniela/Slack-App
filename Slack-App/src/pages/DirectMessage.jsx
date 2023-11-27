@@ -51,6 +51,7 @@ export const DirectMessage = () => {
     };
 
     useEffect(() => {
+        
         setTargetId(receiverId, () => {
             console.log('State updated:', paramValue);
           });
@@ -107,9 +108,9 @@ export const DirectMessage = () => {
         // console.log(groupMessagesByTimeAndSender(dms));
 
         return (
-            <div class="chat-container">
-                <div class="chat-header">
-                    <div class="chat-profile">
+            <div className="chat-container">
+                <div className="chat-header">
+                    <div className="chat-profile">
                         <img className="pp" src="src/assets/images/profile.jpg" alt="pp"/>
                         <div className="chat-name">
                             <h2>tj maurea dhanniela</h2>
@@ -126,7 +127,7 @@ export const DirectMessage = () => {
                             )}
                 </ul>
     
-                <div class="chat-footer">
+                <div className="chat-footer">
                     <textarea value={message} placeholder="Type a message" onChange={handleChange}></textarea>
                     <div className="shortcut-icons">
                         <div className="attachment-icons">

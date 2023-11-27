@@ -49,7 +49,7 @@ a{
 
 .content {
     // border: 1px solid red;
-    width: clamp(9.75rem, 31.143rem + 109.048vw, 67rem);
+    width: clamp(15rem, -42.143rem + 152.381vw, 95rem);
     overflow: auto;
   }
   
@@ -63,5 +63,6 @@ a{
 @import "styles/sidebar";
 @import "styles/login";
 @import "styles/dm";
+@import "styles/channel";
 @import "styles/dmSidebar";
 @import "styles/spinner";
