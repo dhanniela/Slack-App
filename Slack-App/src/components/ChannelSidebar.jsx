@@ -8,11 +8,24 @@ import _debounce from 'lodash/debounce';
 import { useNavigate } from "react-router-dom/dist";
 
 export const ChannelSidebar = () => {
+
+    const [showModal, setShowModal] = useState(false);
+
+    const handleOpenModal = () => {
+        setShowModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+    };
+
+
     return (
         <div className="dmSidebar-container">
             <div className="dmSidebar-header">
                 <h2>Channels</h2>
-                <PlusSquare className="icons"/>
+                <PlusSquare onClick={handleOpenModal} className="icons"/>
+                <Modal showModal={showModal} handleClose={handleCloseModal} />
             </div>
 
             <div className="dm-search">
@@ -35,3 +48,24 @@ export const ChannelSidebar = () => {
         </div>
     )
 }
+
+const Modal = ({ showModal, handleClose }) => {
+    // Render nothing if showModal is false
+        if (!showModal) {
+        return null;
+    }
+
+        return (
+            <div className="modal">
+                <div className="modal-content">
+                    <span className="close" onClick={handleClose}>
+                        &times;
+                    </span>
+                    <form>
+                        <input type="text" placeholder="Create a Channel"/>
+                        <button>Create</button>
+                    </form>
+                </div>
+            </div>
+        );
+    };
