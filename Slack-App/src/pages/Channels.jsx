@@ -20,12 +20,6 @@ export const Channels = () => {
     };
 
     return (
-        <div className="channel-container">
-            <section>
-                <div className="side-container">
-                    <ChannelSidebar />
-                </div>
-            </section>
 
             <section>
                 <div className="chat-container">
@@ -77,7 +71,6 @@ export const Channels = () => {
                     </div>
                 </div>
             </section>
-        </div>
     )
 }
 
@@ -101,3 +94,5 @@ const Modal = ({ showModal, handleClose }) => {
             </div>
         );
     };
+
+
