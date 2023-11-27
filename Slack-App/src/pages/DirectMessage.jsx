@@ -9,16 +9,25 @@ import { extractHourAndMinutes } from "../components/CommonUtils";
 
 export const DirectMessage = () => {
     const { receiverId } = useParams();
+    const [ targetId, setTargetId ] = useState(receiverId);
     const [message, setMessage] = useState("");
     const [dms, setDms] = useState([]);
     const [loading, setLoading] = useState(true);
     const [timeGrouping,setTimeGrouping] = useState([]);
     const currentUser = getHeadersFromLocalStorage();
 
-    console.log(receiverId);
+    
+    // useEffect(() => {
+    //     // Update the state when the URL parameter changes
+    //     setTargetId(receiverId);
+    //     console.log(targetId);
+    //     console.log(receiverId);
+    //     fetchDms();
+    //   }, [receiverId]);
+
     //GET USERS
 
-    const fetchDms = async () => {
+    const fetchDms = async (targetId) => {
         const get  = {
             method: 'GET', 
             mode: 'cors',
@@ -30,7 +39,7 @@ export const DirectMessage = () => {
             }
         }
         try{
-            const response = await fetch(`http://206.189.91.54/api/v1/messages?receiver_id=${receiverId}&receiver_class=User`,get);
+            const response = await fetch(`http://206.189.91.54/api/v1/messages?receiver_id=${targetId}&receiver_class=User`,get);
             const data = await response.json();
 
             setDms(data.data);
@@ -42,19 +51,25 @@ export const DirectMessage = () => {
     };
 
     useEffect(() => {
+        
+        setTargetId(receiverId, () => {
+            console.log('State updated:', paramValue);
+          });
+
+        console.log(targetId);
 
         const interval = setInterval(() => {
-            fetchDms();
+            fetchDms(receiverId);
           }, 4000);
       
-          return () => clearInterval(interval);
-    }, []);
+        return () => clearInterval(interval);
+    }, [receiverId]);
 
     const handleSend = (e) =>{
-        console.log(receiverId);
+        console.log(targetId);
         setMessage("");
-        fetchDms();
-        sendDms(message, receiverId);
+        fetchDms(targetId);
+        sendDms(message, targetId);
     }
 
     const handleChange = (e) =>{
