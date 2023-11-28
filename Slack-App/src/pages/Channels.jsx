@@ -203,43 +203,80 @@ export const Channels = (props) => {
 
 
 }
+const InnerModal = ({handleCloseInnerModal, showInnerModal}) => {
+
+    if (!showInnerModal) {
+        return null;
+      }
+
+    return (
+      <div className="inner-modal">
+        <div className="inner-modal-content">
+            <div>
+                <ul>
+                    <li onClick={handleCloseInnerModal} className="channel-item">
+                        <div className="channel-list">
+                            <h2>name</h2>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+      </div>
+    );
+  };
 
 const Modal = ({ showModal, handleClose, currentUser }) => {
+    const [showInnerModal, setShowInnerModal] = useState(false);
+    const [inputValue, setInputValue] = useState('');
+  
+    const handleOpenInnerModal = () => {
+      setShowInnerModal(true);
+    };
+
+    const handleCloseInnerModal = () => {
+        setShowInnerModal(false);
+      };
+  
+
+    const handleChange = () => {
+        setShowInnerModal(true);
+    }
     
-        if (!showModal) {
+    if (!showModal) {
         return null;
     }
 
-    const [users, setUsers] = useState([]);
-    const [originalUsers, setOriginalUsers] = useState([]);
+    // const [users, setUsers] = useState([]);
+    // const [originalUsers, setOriginalUsers] = useState([]);
 
-    const fetchUsers = async () => {
-        const get  = {
-            method: 'GET', 
-            mode: 'cors',
-            headers: {
-                'access-token' : currentUser.accessToken,  
-                'client' : currentUser.client, 
-                'expiry' : currentUser.expiry, 
-                'uid' : currentUser.uid
-            }
-        }
-        try{
-            const response = await fetch(`http://206.189.91.54/api/v1/users`,get);
-            const data = await response.json();
+    // const fetchUsers = async () => {
+    //     const get  = {
+    //         method: 'GET', 
+    //         mode: 'cors',
+    //         headers: {
+    //             'access-token' : currentUser.accessToken,  
+    //             'client' : currentUser.client, 
+    //             'expiry' : currentUser.expiry, 
+    //             'uid' : currentUser.uid
+    //         }
+    //     }
+    //     try{
+    //         const response = await fetch(`http://206.189.91.54/api/v1/users`,get);
+    //         const data = await response.json();
 
-            setUsers(data.data);
-            setOriginalUsers(data.data);
-        } catch (error) {
-            console.error(`Error fetching users:`, error);
-        } finally {
-            setLoading(false);
-        }
-    };
+    //         setUsers(data.data);
+    //         setOriginalUsers(data.data);
+    //     } catch (error) {
+    //         console.error(`Error fetching users:`, error);
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // };
 
-    useEffect(() => {
-        fetchUsers();
-    }, []);
+    // useEffect(() => {
+    //     fetchUsers();
+    // }, []);
 
     return (
         <div className="channel-modal">
@@ -248,7 +285,8 @@ const Modal = ({ showModal, handleClose, currentUser }) => {
                     &times;
                 </span>
                 <form action="#">
-                    <input type="text" placeholder="Add more people"/>
+                    <input type="text" placeholder="Add more people" value={inputValue} onChange={handleChange}/>
+                    <InnerModal handleCloseInnerModal={handleCloseInnerModal} showInnerModal={showInnerModal}/>
                     <button type="submit">Add</button>
                 </form>
             </div>
