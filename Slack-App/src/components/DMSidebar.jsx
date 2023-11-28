@@ -71,6 +71,7 @@ export const DMSidebar = () => {
         <div className="dms-list-container">
             <Spinner />
         </div>
+        <DirectMessage/>
     </div>
     }
 

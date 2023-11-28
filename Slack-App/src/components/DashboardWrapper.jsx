@@ -23,15 +23,8 @@ export function DashboardWrapper() {
   return (
     <div className="body-content">
         <Sidebar />
-        {/* <section>
-            <div className="side-container">
-                <DMSidebar />
-            </div>
-        </section>  */}
-        <div className="content">
-            <div className="content-container">
-                <Outlet />
-            </div>
+        <div className="content-container">
+            <Outlet />
         </div>
     </div>
   );

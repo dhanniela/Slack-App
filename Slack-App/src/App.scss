@@ -44,15 +44,17 @@ a{
 
 .body-content{
     display: flex;
-    width: 100vw;
+    width: 100%;
+    overflow: hidden;
+
+}
+ 
+
+.container{
+    overflow: hidden;
 }
 
-.content {
-    // border: 1px solid red;
-    width: clamp(15rem, -42.143rem + 152.381vw, 95rem);
-    overflow: auto;
-  }
-  
+
 //   .content-container {
 //     height: 80vh;
 //     width: 80vw;

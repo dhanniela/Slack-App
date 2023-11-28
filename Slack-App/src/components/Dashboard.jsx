@@ -10,7 +10,6 @@ import { HomeSidebar } from "./HomeSidebar.jsx";
 
 export const Dashboard = (
     <Route path="/" element={<DashboardWrapper />}>
-        {/* <Route path="/" element={<Sidebar/>}/> */}
         <Route path="/sidedm" run="true" element={<DMSidebar/>}/>
         {/* <Route path="/dms/:receiverId" element={<DirectMessage/>}/> */}
         <Route path="/sidechannels" element={<ChannelSidebar/>}/>

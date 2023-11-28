@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useEffect } from "react";
-import { UserCircle2, UserPlus, Paperclip, Camera, Mic, SendHorizontal, Smile, AtSign } from "lucide-react";
+import { UserPlus, Paperclip, Camera, Mic, SendHorizontal, Smile, AtSign } from "lucide-react";
 import {getUserDmsSender} from "../components/CommonUtils"
 import {sendDms} from "../components/CommonUtils"
 import { useParams } from 'react-router-dom';
@@ -119,17 +119,7 @@ export const Channels = (props) => {
                             </div>
                         </div>
                     </div>
-        
-                    <ul>
-                        <li>             
-                            <div className="chat-box">
-                                <div className="sender">
-                                    <Spinner/>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-        
+                    <Spinner/>
                     <div className="chat-footer">
                         <textarea  placeholder="Type a message" ></textarea>
                         <div className="shortcut-icons">
@@ -252,14 +242,14 @@ const Modal = ({ showModal, handleClose, currentUser }) => {
     }, []);
 
     return (
-        <div className="modal">
-            <div className="modal-content">
+        <div className="channel-modal">
+            <div className="channel-modal-content">
                 <span className="close" onClick={handleClose}>
                     &times;
                 </span>
-                <form>
+                <form action="#">
                     <input type="text" placeholder="Add more people"/>
-                    <button>Add</button>
+                    <button type="submit">Add</button>
                 </form>
             </div>
         </div>

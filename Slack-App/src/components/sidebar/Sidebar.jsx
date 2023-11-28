@@ -1,7 +1,6 @@
 import { CustomLink } from "./Link";
 import { UserCircle2, Home, MessagesSquare, Hash, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { ChannelSidebar } from "../ChannelSidebar";
 
 export const Sidebar = () => {
     const navigate = useNavigate();
