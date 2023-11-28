@@ -1,7 +1,6 @@
 import React, { useEffect} from "react";
 import { useState } from "react";
 import { Search, PlusSquare, Hash } from "lucide-react";
-import { getAllUsers } from "./CommonUtils";
 import { getHeadersFromLocalStorage } from "./CommonUtils";
 import { Spinner } from "./Spinner";
 import _debounce from 'lodash/debounce';
