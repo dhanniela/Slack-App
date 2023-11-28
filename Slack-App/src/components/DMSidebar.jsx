@@ -66,7 +66,7 @@ export const DMSidebar = () => {
         }
     };
 
-    //GET USERS
+
     useEffect(() => {
         fetchUsers();
     }, []);

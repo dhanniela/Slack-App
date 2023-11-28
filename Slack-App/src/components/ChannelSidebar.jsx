@@ -28,54 +28,6 @@ export const ChannelSidebar = () => {
       setShowModal(false);
     };
 
-    //GET USERS FOR SEARCH
-    const fetchUsers = async () => {
-        const get  = {
-            method: 'GET', 
-            mode: 'cors',
-            headers: {
-                'access-token' : currentUser.accessToken,  
-                'client' : currentUser.client, 
-                'expiry' : currentUser.expiry, 
-                'uid' : currentUser.uid
-            }
-        }
-        try{
-            const response = await fetch(`http://206.189.91.54/api/v1/users`,get);
-            const data = await response.json();
-
-            setUsers(data.data);
-        } catch (error) {
-            console.error(`Error fetching users:`, error);
-        } finally {
-            setIsSearchDone(true);
-        }
-    }
-
-    //FETCH CHANNEL DMS
-    const fetchDms = async () => {
-        const get  = {
-            method: 'GET', 
-            mode: 'cors',
-            headers: {
-                'access-token' : currentUser.accessToken,  
-                'client' : currentUser.client, 
-                'expiry' : currentUser.expiry, 
-                'uid' : currentUser.uid
-            }
-        }
-        try{
-            const response = await fetch(`http://206.189.91.54/api/v1/messages?receiver_id=${currentUser.id}&receiver_class=Class`,get);
-            const data = await response.json();
-
-            setDms(data.data);
-        } catch (error) {
-            console.error(`Error fetching DMs:`, error);
-        } finally {
-            setIsFetchDMDone(true);
-        }
-    }
-
     //FETCH CHANNEL DMS
     const fetchUserChannels = async () => {
         const get  = {
@@ -98,6 +50,39 @@ export const ChannelSidebar = () => {
         } finally {
             setIsFetchChannelDone(true);
         }
+    }
+
+    const postNewChannel = (channelName, receiverIds) => {
+        const payload = {
+            name: channelName,
+            user_ids: receiverIds
+        }
+    
+        const post  = {
+            method: 'POST', 
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json',
+                'access-token' : currentUser.accessToken,  
+                'client' : currentUser.client, 
+                'expiry' : currentUser.expiry, 
+                'uid' : currentUser.uid
+            },
+            body: JSON.stringify(payload)
+        }
+    
+        const url = `http://206.189.91.54/api/v1/channels`;
+        
+        fetch(url, post)
+        .then(res=>res.json())
+        .then(data=> console.log(data))
+        .catch(err=> console.log(err))
+    }
+
+    const addNewChannel = (channelName, receiverIds) => {
+        console.log(channelName, receiverIds);
+        postNewChannel(channelName,receiverIds);
+        fetchUserChannels();
     }
 
     const selectCard = (channelId) => {
@@ -128,7 +113,7 @@ export const ChannelSidebar = () => {
                         <div className="channelSidebar-header">
                             <h2>Channels</h2>
                             <PlusSquare onClick={handleOpenModal} className="icons"/>
-                            <Modal showModal={showModal} handleClose={handleCloseModal} />
+                            <Modal addNewChannel={addNewChannel} showModal={showModal} handleClose={handleCloseModal} />
                         </div>
 
                         <div className="channel-search">
@@ -154,7 +139,7 @@ export const ChannelSidebar = () => {
                         <div className="channelSidebar-header">
                             <h2>Channels</h2>
                             <PlusSquare onClick={handleOpenModal} className="icons"/>
-                            <Modal showModal={showModal} handleClose={handleCloseModal}/>
+                            <Modal addNewChannel={addNewChannel} showModal={showModal} handleClose={handleCloseModal}/>
                         </div>
                         <div className="channel-search">
                             <div className="channel-searchBar">
@@ -199,47 +184,79 @@ const ChannelCard = ({selectCard, channelData}) => {
     )
 }
 
-const InnerModal = ({handleCloseInnerModal, showInnerModal}) => {
+  const Modal = ({addNewChannel, showModal, handleClose }) => {
 
-    if (!showInnerModal) {
-        return null;
-      }
+    const [users, setUsers] = useState([]);
+    const [originalUsers, setOriginalUsers] = useState([]);
 
-    return (
-      <div className="inner-modal">
-        <div className="inner-modal-content">
-            <div>
-                <ul>
-                    <li onClick={handleCloseInnerModal} className="channel-item">
-                        <div className="channel-list">
-                            <h2>name</h2>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-      </div>
-    );
-  };
+    const currentUser = getHeadersFromLocalStorage();
+    const [userTargetId, setUserTargetId] = useState(0);
+    const [isFetchDone, setIsFetchDone] = useState(false);
 
-  const Modal = ({ showModal, handleClose }) => {
     const [showInnerModal, setShowInnerModal] = useState(false);
     const [inputValue, setInputValue] = useState('');
-  
-    const handleOpenInnerModal = () => {
-      setShowInnerModal(true);
-    };
 
-    const handleCloseInnerModal = () => {
+    const [userIds, setUserIds] = useState([]);
+
+    const fetchUsers = async () => {
+        const get  = {
+            method: 'GET', 
+            mode: 'cors',
+            headers: {
+                'access-token' : currentUser.accessToken,  
+                'client' : currentUser.client, 
+                'expiry' : currentUser.expiry, 
+                'uid' : currentUser.uid
+            }
+        }
+        try{
+            const response = await fetch(`http://206.189.91.54/api/v1/users`,get);
+            const data = await response.json();
+
+            setUsers(data.data);
+            setOriginalUsers(data.data);
+        } catch (error) {
+            console.error(`Error fetching users:`, error);
+        } finally {
+            setIsFetchDone(true);
+        }
+    }
+
+    useEffect(() => {
+        fetchUsers();
+    }, [])
+
+    const getUserIdsFromModal = (userId) => {
+        userIds.push(userId)
+        setUserIds(userIds);
         setShowInnerModal(false);
-      };
+      }
   
     if (!showModal) {
       return null;
     }
 
-    const handleChange = () => {
+    const searchUsers = (search,userArr) => {
+        const regex = new RegExp(search, 'i');
+    
+        const filteredResults = userArr.filter(
+            (user) => regex.test(user.email)
+          );
+    
+        setUsers(filteredResults);
+        console.log(users);
+    }
+
+    const handleChange = (e) => {
+        setInputValue(e.target.value);
+
+        searchUsers(e.target.value,originalUsers);
+
         setShowInnerModal(true);
+    }
+
+    const postToDmSideBar = (e) => {
+        addNewChannel(e.target.channelNameInput.value, userIds);
     }
     
       return (
@@ -248,16 +265,16 @@ const InnerModal = ({handleCloseInnerModal, showInnerModal}) => {
             <span className="close" onClick={handleClose}>
               &times;
             </span>
-            <form action="#">
+            <form onSubmit={postToDmSideBar}  action="#">
                 <div>
-                    <input type="text" placeholder="Create new channel"/>
+                    <input name="channelNameInput" type="text" placeholder="Create new channel"/>
                     <button type="submit">Create</button>
                 </div>
                 <div>
                     <input type="text" placeholder="Add more people" value={inputValue}
           onChange={handleChange}/>
                     {/* {showInnerModal && <InnerModal showModal={showInnerModal}/>} */}
-                    <InnerModal handleCloseInnerModal={handleCloseInnerModal} showInnerModal={showInnerModal}/>
+                    <InnerModal isFetchDone={isFetchDone} users={users} handleCloseInnerModal={getUserIdsFromModal} showInnerModal={showInnerModal}/>
                     <button type="submit">Add</button>
                 </div>
             </form>
@@ -265,3 +282,47 @@ const InnerModal = ({handleCloseInnerModal, showInnerModal}) => {
         </div>
       );
 }
+
+const InnerModal = ({isFetchDone, users, handleCloseInnerModal, showInnerModal}) => {
+
+    if (!showInnerModal || !isFetchDone) {
+        return null;
+    }
+
+    return (
+      <div className="inner-modal">
+        <div className="inner-modal-content">
+            <div>
+                <ul>
+                    {
+                    users.map(userData => {
+                        return (<>
+                            <ModalCards handleCloseInnerModal={handleCloseInnerModal} userData={userData}/>
+                        </>)}
+                    )
+                    }
+                
+                </ul>
+            </div>
+        </div>
+      </div>
+    );
+  }
+
+  const ModalCards = ({handleCloseInnerModal, userData}) => {
+
+    const setId = () => {
+        handleCloseInnerModal(userData.id);
+    }
+
+    return(    
+        <li onClick={setId} className="channel-item">
+            <div className="channel-list">
+                <h2>{userData.email}</h2>
+            </div>
+        </li>
+    )
+
+
+  }
+
