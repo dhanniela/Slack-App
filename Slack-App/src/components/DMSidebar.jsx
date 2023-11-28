@@ -14,49 +14,45 @@ export const DMSidebar = () => {
     const [searchTerm, setSearchTerm] = useState([]);
     const [loading, setLoading] = useState(true);
     const currentUser = getHeadersFromLocalStorage();
-    const navigate = useNavigate();
+
+    const [userTargetId, setUserTargetId] = useState(0);
+    const [renderUserDms, setRenderUserDms] = useState(false);
+
     let latestUserId = 0;
+
+    const fetchUsers = async () => {
+        const get  = {
+            method: 'GET', 
+            mode: 'cors',
+            headers: {
+                'access-token' : currentUser.accessToken,  
+                'client' : currentUser.client, 
+                'expiry' : currentUser.expiry, 
+                'uid' : currentUser.uid
+            }
+        }
+        try{
+            const response = await fetch(`http://206.189.91.54/api/v1/users`,get);
+            const data = await response.json();
+
+            setUsers(data.data);
+            setOriginalUsers(data.data);
+        } catch (error) {
+            console.error(`Error fetching users:`, error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     //GET USERS
     useEffect(() => {
-        const fetchUsers = async () => {
-            const get  = {
-                method: 'GET', 
-                mode: 'cors',
-                headers: {
-                    'access-token' : currentUser.accessToken,  
-                    'client' : currentUser.client, 
-                    'expiry' : currentUser.expiry, 
-                    'uid' : currentUser.uid
-                }
-            }
-            try{
-                const response = await fetch(`http://206.189.91.54/api/v1/users`,get);
-                const data = await response.json();
-
-                setUsers(data.data);
-                setOriginalUsers(data.data);
-            } catch (error) {
-                console.error(`Error fetching users:`, error);
-            } finally {
-                setLoading(false);
-            }
-        };
-        
         fetchUsers();
     }, []);
 
-    const showDm = useCallback(() => { 
-        console.log(users);
-        navigate(`/dms/${users[0].id}`);
-    }, []);
-
-    // useEffect(() => {
-    //     if(!loading){
-    //         console.log(users);
-    //         navigate(`/dms/${users[0].id}`);
-    //     }
-    // }, [loading,false]);
+    const selectUser = (userId) => {
+        setUserTargetId(userId);
+        setRenderUserDms(true);
+    }
 
     if(loading) {
         return <div className="dmSidebar-container">
@@ -123,35 +119,31 @@ export const DMSidebar = () => {
                             <ul>
                                 {users.map(userData => {
                                     return (<>
-                                        <DMSideLi userInfo = {userData}/>
+                                        <DMSideLi selectUser={selectUser} userData = {userData}/>
                                     </>)}
                                 )}
                             </ul>
                         </div>
                     </div>
                 </section>
-                <DirectMessage/>
+                <DirectMessage userTargetId = {userTargetId} renderUserDms = {renderUserDms} />
             </div>
         )
     }
 }
 
-const DMSideLi = (props) => {
-    const userInfo = props.userInfo;
-
-    const navigate = useNavigate();
-
-    const handeClick = () => {
-        navigate(`/dms/${userInfo.id}`) 
+const DMSideLi = ({selectUser, userData}) => {
+    const handleClick = () => {
+        selectUser(userData.id)
     }
 
     return (
-        <li onClick={handeClick} className="dm-item">
+        <li onClick={handleClick} className="dm-item">
             <div className="dms-list">
                 <img className="dm-pp" src="src/assets/images/profile.jpg" alt="pp"/>
                 <div className="right">
                     <div className="dm-chat-name">
-                        <h5>{userInfo.email}</h5>
+                        <h5>{userData.email}</h5>
                         <span>September 28</span>
                     </div>
                     <div className="dm-truncate">

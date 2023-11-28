@@ -18,6 +18,7 @@ export const ChannelSidebar = () => {
     const [isFetchChannelDone, setIsFetchChannelDone] = useState(false);
 
     const [channelTargetId, setChannelTargetId] = useState(0);
+    const [renderChannelDms, setRenderChannelDms] = useState(false);
     
 
 const [showModal, setShowModal] = useState(false);
@@ -108,6 +109,7 @@ const [showModal, setShowModal] = useState(false);
 
     const selectCard = (channelId) => {
         setChannelTargetId(channelId);
+        setRenderChannelDms(true);
     }
 
     useEffect(() => {
@@ -187,7 +189,7 @@ const [showModal, setShowModal] = useState(false);
                         </div>
                     </div>
                 </section>
-                <Channels />
+                <Channels channelTargetId = {channelTargetId} renderChannelDms = {renderChannelDms} />
             </div>
         )
     }
@@ -251,4 +253,4 @@ const Modal = ({ showModal, handleClose, handleSubmit }) => {
         )}
       </div>
     );
-  };
+  }

@@ -12,7 +12,7 @@ export const Dashboard = (
     <Route path="/" element={<DashboardWrapper />}>
         {/* <Route path="/" element={<Sidebar/>}/> */}
         <Route path="/sidedm" run="true" element={<DMSidebar/>}/>
-        <Route path="/dms/:receiverId" element={<DirectMessage/>}/>
+        {/* <Route path="/dms/:receiverId" element={<DirectMessage/>}/> */}
         <Route path="/sidechannels" element={<ChannelSidebar/>}/>
         <Route path="/home" element={<HomeSidebar/>}/>
     </Route>
