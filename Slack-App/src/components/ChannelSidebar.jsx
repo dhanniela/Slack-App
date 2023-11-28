@@ -199,12 +199,48 @@ const ChannelCard = ({selectCard, channelData}) => {
     )
 }
 
-const Modal = ({ showModal, handleClose }) => {
+const InnerModal = ({handleCloseInnerModal, showInnerModal}) => {
 
-    
-    if (!showModal) {
+    if (!showInnerModal) {
         return null;
       }
+
+    return (
+      <div className="inner-modal">
+        <div className="inner-modal-content">
+            <div>
+                <ul>
+                    <li onClick={handleCloseInnerModal} className="channel-item">
+                        <div className="channel-list">
+                            <h2>name</h2>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+      </div>
+    );
+  };
+
+  const Modal = ({ showModal, handleClose }) => {
+    const [showInnerModal, setShowInnerModal] = useState(false);
+    const [inputValue, setInputValue] = useState('');
+  
+    const handleOpenInnerModal = () => {
+      setShowInnerModal(true);
+    };
+
+    const handleCloseInnerModal = () => {
+        setShowInnerModal(false);
+      };
+  
+    if (!showModal) {
+      return null;
+    }
+
+    const handleChange = () => {
+        setShowInnerModal(true);
+    }
     
       return (
         <div className="channel-modal">
@@ -213,12 +249,20 @@ const Modal = ({ showModal, handleClose }) => {
               &times;
             </span>
             <form action="#">
-                <input type="text" placeholder="Create new channel"/>
-                <button type="submit">Create</button>
-                <input type="text" placeholder="Add more people"/>
-                <button type="submit">Add</button>
+                <div>
+                    <input type="text" placeholder="Create new channel"/>
+                    <button type="submit">Create</button>
+                </div>
+                <div>
+                    <input type="text" placeholder="Add more people" value={inputValue}
+          onChange={handleChange}/>
+                    {/* {showInnerModal && <InnerModal showModal={showInnerModal}/>} */}
+                    <InnerModal handleCloseInnerModal={handleCloseInnerModal} showInnerModal={showInnerModal}/>
+                    <button type="submit">Add</button>
+                </div>
             </form>
           </div>
         </div>
       );
 }
+
