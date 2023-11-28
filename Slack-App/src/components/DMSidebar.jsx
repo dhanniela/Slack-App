@@ -6,6 +6,7 @@ import { Spinner } from "./Spinner";
 import _debounce from 'lodash/debounce';
 import { useNavigate } from "react-router-dom/dist";
 import { useCallback } from "react";
+import { DirectMessage } from "../pages/DirectMessage";
 
 export const DMSidebar = () => {
     const [users, setUsers] = useState([]);
@@ -50,12 +51,12 @@ export const DMSidebar = () => {
         navigate(`/dms/${users[0].id}`);
     }, []);
 
-    useEffect(() => {
-        if(!loading){
-            console.log(users);
-            navigate(`/dms/${users[0].id}`);
-        }
-    }, [loading,false]);
+    // useEffect(() => {
+    //     if(!loading){
+    //         console.log(users);
+    //         navigate(`/dms/${users[0].id}`);
+    //     }
+    // }, [loading,false]);
 
     if(loading) {
         return <div className="dmSidebar-container">
@@ -103,28 +104,33 @@ export const DMSidebar = () => {
           };
 
         return (
-            <div className="dmSidebar-container">
-                <div className="dmSidebar-header">
-                    <h2>Direct messages</h2>
-                    <PenSquare className="icons"/>
-                </div>
+            <div className="dm-container">
+                <section>
+                    <div className="dmSidebar-container">
+                        <div className="dmSidebar-header">
+                            <h2>Direct messages</h2>
+                            <PenSquare className="icons"/>
+                        </div>
 
-                <div className="dm-search">
-                    <div className="dm-searchBar">
-                        <Search className="icons"/>
-                        <input onChange={handleChange} id="search-dm" type="text" placeholder="Find a DM"/>
+                        <div className="dm-search">
+                            <div className="dm-searchBar">
+                                <Search className="icons"/>
+                                <input onChange={handleChange} id="search-dm" type="text" placeholder="Find a DM"/>
+                            </div>
+                        </div>
+
+                        <div className="dms-list-container">
+                            <ul>
+                                {users.map(userData => {
+                                    return (<>
+                                        <DMSideLi userInfo = {userData}/>
+                                    </>)}
+                                )}
+                            </ul>
+                        </div>
                     </div>
-                </div>
-
-                <div className="dms-list-container">
-                    <ul>
-                        {users.map(userData => {
-                            return (<>
-                                <DMSideLi userInfo = {userData}/>
-                            </>)}
-                        )}
-                    </ul>
-                </div>
+                </section>
+                <DirectMessage/>
             </div>
         )
     }

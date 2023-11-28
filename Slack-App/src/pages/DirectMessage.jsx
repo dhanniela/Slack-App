@@ -166,5 +166,4 @@ const Message = (props) => {
             </div>
         </li>
     )
-
 }
