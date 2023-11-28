@@ -20,15 +20,15 @@ export const ChannelSidebar = () => {
     const [channelTargetId, setChannelTargetId] = useState(0);
     
 
-    const [showModal, setShowModal] = useState(false);
+const [showModal, setShowModal] = useState(false);
 
-    const handleOpenModal = () => {
-        setShowModal(true);
-    };
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
 
-    const handleCloseModal = () => {
-        setShowModal(false);
-    };
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
 
     //GET USERS FOR SEARCH
     const fetchUsers = async () => {
@@ -53,6 +53,10 @@ export const ChannelSidebar = () => {
             setIsSearchDone(true);
         }
     }
+
+  const handleSubmit = () => {
+    // Handle form submission logic here
+  };
 
     //FETCH CHANNEL DMS
     const fetchDms = async () => {
@@ -129,7 +133,7 @@ export const ChannelSidebar = () => {
                         <div className="dmSidebar-header">
                             <h2>Channels</h2>
                             <PlusSquare onClick={handleOpenModal} className="icons"/>
-                            <ChannelModal showModal={showModal} handleClose={handleCloseModal} />
+                            <Modal showModal={showModal} handleClose={handleCloseModal} handleSubmit={handleSubmit} />
                         </div>
 
                         <div className="dm-search">
@@ -161,9 +165,8 @@ export const ChannelSidebar = () => {
                         <div className="dmSidebar-header">
                             <h2>Channels</h2>
                             <PlusSquare onClick={handleOpenModal} className="icons"/>
-                            <ChannelModal showModal={showModal} handleClose={handleCloseModal} />
+                            <Modal showModal={showModal} handleClose={handleCloseModal} handleSubmit={handleSubmit} />
                         </div>
-
                         <div className="dm-search">
                             <div className="dm-searchBar">
                                 <Search className="icons"/>
@@ -207,40 +210,45 @@ const ChannelCard = ({selectCard, channelData}) => {
     )
 }
 
-const ChannelModal = ({ showModal, handleClose }) => {
-    // Render nothing if showModal is false
-        if (!showModal) {
-        return null;
-    }
+const Modal = ({ showModal, handleClose, handleSubmit }) => {
 
-    const AddUserModal = () => {
-        console.log("asd");
-        return (
-            <div className="modal">
-                <div className="modal-content">
-                    <span className="close" onClick={handleClose}>
-                        &times;
-                    </span>
-                    <form action="#">
-                        <input type="text" placeholder="Add People"/>
-                        <button>Add</button>
-                    </form>
-                </div>
-            </div>
-        );
-    }
-
-        return (
-            <div className="modal">
-                <div className="modal-content">
-                    <span className="close" onClick={handleClose}>
-                        &times;
-                    </span>
-                    <form action="#" onSubmit={AddUserModal}>
-                        <input type="text" placeholder="Create a Channel"/>
-                        <button type="submit">Create</button>
-                    </form>
-                </div>
-            </div>
-        );
+    
+    const [showSecondModal, setShowSecondModal] = useState(false);
+  
+    const handleOpenSecondModal = () => {
+      setShowSecondModal(true);
     };
+  
+    const handleCloseSecondModal = () => {
+      setShowSecondModal(false);
+    };
+
+    if (!showModal) {
+        return null;
+      }
+  
+    return (
+      <div className={`modal ${showModal ? 'show' : ''}`}>
+        <div className="modal-content">
+          <span className="close" onClick={handleClose}>
+            &times;
+          </span>
+          <form onSubmit={(e) => { e.preventDefault(); handleOpenSecondModal(); handleSubmit(); }}>
+         <input type="text" placeholder="Create a Channel"/>
+                        <button type="submit">Create</button>
+          </form>
+        </div>
+        {showSecondModal && (
+          <div className="modal second-modal">
+            <div className="modal-content">
+              <span className="close" onClick={handleCloseSecondModal}>
+                &times;
+              </span>
+              <input type="text" placeholder="Add people"/>
+                        <button type="submit">Add</button>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  };

@@ -95,3 +95,5 @@ const Modal = ({ showModal, handleClose }) => {
             </div>
         );
     };
+
+
