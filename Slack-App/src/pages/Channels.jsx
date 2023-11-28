@@ -8,7 +8,9 @@ import { getHeadersFromLocalStorage } from "../components/CommonUtils";
 import { extractHourAndMinutes } from "../components/CommonUtils";
 import { ChannelSidebar } from "../components/ChannelSidebar";
 
-export const Channels = () => {
+export const Channels = (props) => {
+    const channelInfo = props.channelInfo;
+
     const [showModal, setShowModal] = useState(false);
 
     const handleOpenModal = () => {
@@ -20,7 +22,6 @@ export const Channels = () => {
     };
 
     return (
-
             <section>
                 <div className="chat-container">
                     <div className="chat-header">
@@ -87,8 +88,8 @@ const Modal = ({ showModal, handleClose }) => {
                         &times;
                     </span>
                     <form>
-                        <input type="text" placeholder="Create a Channel"/>
-                        <button>Create</button>
+                        <input type="text" placeholder="Add more people"/>
+                        <button>Add</button>
                     </form>
                 </div>
             </div>
