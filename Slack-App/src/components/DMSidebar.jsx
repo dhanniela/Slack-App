@@ -20,6 +20,28 @@ export const DMSidebar = () => {
 
     let latestUserId = 0;
 
+    const [inputValue, setInputValue] = useState('');
+    const [showModal, setShowModal] = useState(false);
+  
+    const handleOpenModal = () => {
+      setShowModal(true);
+    };
+  
+    const handleCloseModal = () => {
+      setShowModal(false);
+    };
+
+    const handleInputChange = (e) => {
+        setInputValue(e.target.value);
+    
+        // Show the modal when there is input
+        if (e.target.value.trim() !== '') {
+          handleOpenModal();
+        } else {
+          handleCloseModal();
+        }
+      };
+  
     const fetchUsers = async () => {
         const get  = {
             method: 'GET', 
@@ -92,11 +114,12 @@ export const DMSidebar = () => {
 
         const debouncedSearch = _debounce(handleSearch, 2000);
 
-        const handleChange = (event) => {
-            const { value } = event.target;
+        const handleChange = (e) => {
+            const { value } = e.target;
             setSearchTerm(value);
-        
 
+            handleInputChange(e);
+        
             debouncedSearch(value);
           };
 
@@ -112,18 +135,14 @@ export const DMSidebar = () => {
                         <div className="dm-search">
                             <div className="dm-searchBar">
                                 <Search className="icons"/>
-                                <input onChange={handleChange} id="search-dm" type="text" placeholder="Find a DM"/>
+                                <input onChange={handleChange} value={inputValue} id="search-dm" type="text" placeholder="Find a DM"/>
+                                <Modal showModal={showModal} users={users} handleClose={handleCloseModal} />
+                                
                             </div>
                         </div>
 
                         <div className="dms-list-container">
-                            <ul>
-                                {users.map(userData => {
-                                    return (<>
-                                        <DMSideLi selectUser={selectUser} userData = {userData}/>
-                                    </>)}
-                                )}
-                            </ul>
+                            recent message here
                         </div>
                     </div>
                 </section>
@@ -155,4 +174,34 @@ const DMSideLi = ({selectUser, userData}) => {
         </li>
     )
 }
+
+const Modal = ({ showModal, handleClose, users }) => {
+    const selectUser = (userId) => {
+        setUserTargetId(userId);
+        setRenderUserDms(true);
+    }
+
+    if (!showModal) {
+      return null;
+    }
+  
+    return (
+      <div className="channel-modal">
+        <div className="channel-modal-content">
+          <span className="close" onClick={handleClose}>
+            &times;
+          </span>
+          <div className="dms-list-container">
+                <ul>
+                    {users.map(userData => {
+                        return (<>
+                            <DMSideLi selectUser={selectUser} userData = {userData}/>
+                        </>)}
+                    )}
+                </ul>
+            </div>
+        </div>
+      </div>
+    );
+  };
 

@@ -265,4 +265,3 @@ const InnerModal = ({handleCloseInnerModal, showInnerModal}) => {
         </div>
       );
 }
-
