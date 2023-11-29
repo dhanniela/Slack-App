@@ -5,6 +5,7 @@ import { getHeadersFromLocalStorage } from "./CommonUtils";
 import { Spinner } from "./Spinner";
 import _debounce from 'lodash/debounce';
 import { Channels } from "../pages/Channels";
+import { set } from "lodash";
 
 export const ChannelSidebar = () => {
     const [channels, setChannels] = useState([]);
@@ -15,6 +16,13 @@ export const ChannelSidebar = () => {
     const [isFetchDMDone, setIsFetchDMDone] = useState(false);    
     const [isSearchDone, setIsSearchDone] = useState(false);
     const [renderChannelDms, setRenderChannelDms] = useState(false);
+<<<<<<< HEAD
+=======
+
+    const [errorFound, setErrorFound] = useState(false);
+    const [error, setError] = useState(false);
+    
+>>>>>>> bfe28fcbffc69f42ef865cdaa69b014c8a3e2d5b
     const [showModal, setShowModal] = useState(false);
 
     //MODALS
@@ -42,7 +50,12 @@ export const ChannelSidebar = () => {
             const response = await fetch(`http://206.189.91.54/api/v1/channels`,get);
             const data = await response.json();
 
-            setChannels(data.data);
+            if (data.data == undefined){
+                setErrorFound(true);
+                setError(data.errors);
+            } else {
+                setChannels(data.data);
+            }
         } catch (error) {
             console.error(`Error fetching channels:`, error);
         } finally {
@@ -103,7 +116,11 @@ export const ChannelSidebar = () => {
         return () => clearInterval(interval);
     }, []);
 
+<<<<<<< HEAD
     if(loading) {
+=======
+    if(!isFetchChannelDone || errorFound) {
+>>>>>>> bfe28fcbffc69f42ef865cdaa69b014c8a3e2d5b
         return (
             <div className="channel-container">
                 <section>
@@ -121,8 +138,10 @@ export const ChannelSidebar = () => {
                             </div>
                         </div>
 
-                        <div className="channel-list-container">
-                            <Spinner/>
+                        <div className="channel-list-container"> 
+                            { 
+                                (!errorFound)? (<Spinner/>) : (<div>{error}</div>)
+                            }
                         </div>
                     </div>
                 </section>
