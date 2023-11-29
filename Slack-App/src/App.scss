@@ -9,8 +9,16 @@ body{
     padding: 0;
 }
 
+.content{
+    display: flex;
+    width: 100%;
+    overflow: hidden;
+}
+
 ul{
-    list-style-type:none
+    list-style-type:none;
+    margin: 0;
+    padding: 0;
 }
 
 li{
@@ -39,33 +47,12 @@ a{
 	background-color: #6f7372;
     border-radius: .5rem;
 }
-// 
-// 
 
-.body-content{
-    display: flex;
-    width: 100%;
-    overflow: hidden;
-
-}
-
-.content-container{
-    overflow: auto;
-}
-
-
-//   .content-container {
-//     height: 80vh;
-//     width: 80vw;
-//     border-radius: 1rem;
-    
-//   }
 
 @import "styles/sidebar";
 @import "styles/login";
 @import "styles/dm";
 @import "styles/channel";
-// @import "styles/dmSidebar";
 @import "styles/spinner";
 @import "styles/modal";
 

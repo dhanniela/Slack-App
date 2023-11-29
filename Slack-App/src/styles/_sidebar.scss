@@ -37,15 +37,15 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    height: 7vh;
+    height: 8vh;
     width: clamp(1.8rem, 0.764rem + 2.762vw, 3.25rem);
     margin: 0;
     padding: 0;
     cursor: pointer;
     color: white;
     &:hover{
-        background-color: #535353;
-        border-radius: .5rem;
+        background-color: #302f31;
+        border-radius: clamp(0.25rem, 0.179rem + 0.357vw, 0.5rem);
         .sidebar_icons{
             width: clamp(0.9rem, 0.8rem + 0.5vw, 1.25rem);
             height: clamp(0.9rem, 0.8rem + 0.5vw, 1.25rem);
@@ -58,13 +58,13 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    background-color: #535353;
+    background-color: #302f31;
     cursor: pointer;
-    height: 7vh;
+    height: 8vh;
     width: clamp(1.8rem, 0.764rem + 2.762vw, 3.25rem);
     margin: 0;
     padding: 0;
-    border-radius: .5rem;
+    border-radius: clamp(0.25rem, 0.179rem + 0.357vw, 0.5rem);
 }
 
 .sidebar_icons{
@@ -76,10 +76,6 @@
     width: clamp(1.25rem, 0.893rem + 1.786vw, 2.5rem);
     height: clamp(1.25rem, 0.893rem + 1.786vw, 2.5rem);
     border-radius: 2rem;
-    &:hover{
-        background-color: none;
-    }
-
 }
 
 .logout-icon{

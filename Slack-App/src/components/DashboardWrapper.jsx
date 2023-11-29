@@ -21,7 +21,7 @@ export function DashboardWrapper() {
   }, []);
 
   return (
-    <div className="body-content">
+    <div className="content">
         <Sidebar />
         <div className="content-container">
             <Outlet />

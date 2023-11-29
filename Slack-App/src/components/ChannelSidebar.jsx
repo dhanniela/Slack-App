@@ -193,7 +193,7 @@ const ChannelCard = ({selectCard, channelData}) => {
             <li onClick={handleClick} className="channel-item">
                 <div className="channel-list">
                     <Hash className="icons"/>
-                    {channelData.name}
+                    <h5>{channelData.name}</h5>
                 </div>
             </li>
         </ul>
@@ -300,27 +300,33 @@ const ChannelCard = ({selectCard, channelData}) => {
       return (
         <div className="channel-modal">
           <div className="channel-modal-content">
-            <span className="close" onClick={handleClose}>
-              &times;
-            </span>
+            
+            <div className="channel-modal-header">
+                <h2>Create a Channel</h2>
+                <span className="close" onClick={handleClose}>
+                    &times;
+                </span>
+            </div>            
             <form onSubmit={postToDmSideBar}  action="#">
-                <div>
-                    <input name="channelNameInput" type="text" placeholder="Create new channel"/>
-                    <button type="submit">Create</button>
+                <div className="create-channel">
+                        <input name="channelNameInput" type="text" placeholder="Name your channel"/>
+                        <span className="description">Channels are where conversations happen around a topic. Use a name that is easy to find and understand.</span>
                 </div>
-                <div>
-                    <input type="text" placeholder="Add more people" value={inputValue}
-          onChange={handleChange}/>
-                    {/* {showInnerModal && <InnerModal showModal={showInnerModal}/>} */}
-                    <InnerModal isFetchDone={isFetchDone} users={users} handleCloseInnerModal={getUserIdsFromModal} showInnerModal={showInnerModal}/>
-                    <button type="submit">Add</button>
+                <div className="add-users">
+                        <input type="text" placeholder="Add people" value={inputValue} onChange={handleChange}/>
+                        <InnerModal isFetchDone={isFetchDone} users={users} handleCloseInnerModal={getUserIdsFromModal} showInnerModal={showInnerModal}/>
+                        <div className="description">
+                            {/* <span>Connect with more people.</span> */}
+                            {usersData !== undefined? 
+                            usersData.map(userData => {
+                                return (
+                                    <div>{userData.email}</div>
+                                )
+                            }):<span>Connect with more people.</span>
+                            }                       
+                        </div>
                 </div>
-                {usersData != undefined? 
-                usersData.map(userData => {
-                    return (
-                        <div>{userData.email}</div>
-                    )
-                }):<div>empty</div>}
+                <button type="submit" className="create-channel-button">Create</button>                   
             </form>
           </div>
         </div>
