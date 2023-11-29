@@ -3,17 +3,21 @@ import { useState } from "react";
 import { Search, PlusSquare, Hash } from "lucide-react";
 import { getHeadersFromLocalStorage } from "./CommonUtils";
 import { Spinner } from "./Spinner";
-import { Channels } from "../pages/Channels";
 import _debounce from 'lodash/debounce';
+import { Channels } from "../pages/Channels";
 import { set } from "lodash";
 
 export const ChannelSidebar = () => {
     const [channels, setChannels] = useState([]);
     const [channelTargetId, setChannelTargetId] = useState(0);
+
+    const [channelData, setChannelData] = useState([]);
+
     const currentUser = getHeadersFromLocalStorage();
     const [dms, setDms] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [isFetchDMDone, setIsFetchDMDone] = useState(false);    
+    const [isFetchChannelDone, setIsFetchChannelDone] = useState(false); 
+    const [is, setIsFetchDMDone] = useState(false);   
     const [isSearchDone, setIsSearchDone] = useState(false);
     const [renderChannelDms, setRenderChannelDms] = useState(false);
 
@@ -51,12 +55,13 @@ export const ChannelSidebar = () => {
                 setErrorFound(true);
                 setError(data.errors);
             } else {
+                setErrorFound(false);
                 setChannels(data.data);
             }
         } catch (error) {
             console.error(`Error fetching channels:`, error);
         } finally {
-            setLoading(false);
+            setIsFetchChannelDone(true);
         }
     }
 
@@ -93,8 +98,9 @@ export const ChannelSidebar = () => {
         fetchUserChannels();
     }
 
-    const selectCard = (channelId) => {
-        setChannelTargetId(channelId);
+    const selectCard = (channelData) => {
+        setChannelTargetId(channelData.id);
+        setChannelData(channelData);
 
         setRenderChannelDms(true);
     }
@@ -113,7 +119,7 @@ export const ChannelSidebar = () => {
         return () => clearInterval(interval);
     }, []);
 
-    if(loading || errorFound) {
+    if(!isFetchChannelDone || errorFound) {
         return (
             <div className="channel-container">
                 <section>
@@ -170,7 +176,7 @@ export const ChannelSidebar = () => {
                         </div>
                     </div>
                 </section>
-                <Channels channelTargetId = {channelTargetId} renderChannelDms = {renderChannelDms} />
+                <Channels channelData={channelData} channelTargetId = {channelTargetId} renderChannelDms = {renderChannelDms} />
             </div>
         )
     }
@@ -179,7 +185,7 @@ export const ChannelSidebar = () => {
 
 const ChannelCard = ({selectCard, channelData}) => {
     const handleClick = () => {
-        selectCard(channelData.id);
+        selectCard(channelData);
     }
 
     return (
@@ -207,6 +213,9 @@ const ChannelCard = ({selectCard, channelData}) => {
     const [inputValue, setInputValue] = useState('');
 
     const [userIds, setUserIds] = useState([]);
+
+    const [usersData, setUsersData] = useState([]);
+    
 
     const fetchUsers = async () => {
         const get  = {
@@ -236,9 +245,18 @@ const ChannelCard = ({selectCard, channelData}) => {
         fetchUsers();
     }, [])
 
-    const getUserIdsFromModal = (userId) => {
-        userIds.push(userId)
+    const getUserIdsFromModal = (userData) => {
+        console.log(userData);
+
+        userIds.push(userData.id)
         setUserIds(userIds);
+
+        usersData.push(userData);
+        setUsersData(usersData);
+
+        console.log(usersData);
+
+        setInputValue("");
         setShowInnerModal(false);
       }
   
@@ -266,7 +284,17 @@ const ChannelCard = ({selectCard, channelData}) => {
     }
 
     const postToDmSideBar = (e) => {
+        e.preventDefault();
         addNewChannel(e.target.channelNameInput.value, userIds);
+
+        setUserIds([]);
+        setUsersData([]);
+
+        setShowInnerModal(false);
+
+        setInputValue("");
+        handleClose();
+        e.target.channelNameInput.value = "";
     }
     
       return (
@@ -287,6 +315,12 @@ const ChannelCard = ({selectCard, channelData}) => {
                     <InnerModal isFetchDone={isFetchDone} users={users} handleCloseInnerModal={getUserIdsFromModal} showInnerModal={showInnerModal}/>
                     <button type="submit">Add</button>
                 </div>
+                {usersData != undefined? 
+                usersData.map(userData => {
+                    return (
+                        <div>{userData.email}</div>
+                    )
+                }):<div>empty</div>}
             </form>
           </div>
         </div>
@@ -322,7 +356,7 @@ const InnerModal = ({isFetchDone, users, handleCloseInnerModal, showInnerModal})
   const ModalCards = ({handleCloseInnerModal, userData}) => {
 
     const setId = () => {
-        handleCloseInnerModal(userData.id);
+        handleCloseInnerModal(userData);
     }
 
     return(    

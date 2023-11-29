@@ -14,6 +14,10 @@ export const Channels = (props) => {
     
     const renderChannelDms = props.renderChannelDms;
 
+    const channelData = props.channelData;
+
+    const [channelInfo, setChannelInfo] = useState(channelData); 
+
     const currentUser = getHeadersFromLocalStorage();
     const [showModal, setShowModal] = useState(false);
 
@@ -82,6 +86,9 @@ export const Channels = (props) => {
     }
 
     useEffect(() => {
+
+        setChannelInfo(channelData);
+
         if (renderChannelDms){
             const interval = setInterval(() => {
                 fetchDms(channelTargetId);
@@ -110,7 +117,7 @@ export const Channels = (props) => {
                         <div className="chat-profile">
                             <img className="pp" src="src/assets/images/profile.jpg" alt="pp"/>
                             <div className="chat-name">
-                                <h2>tj maurea dhanniela</h2>
+                                <h2>Loading</h2>
                                 <span>active</span>
                             </div>
                             <div>
@@ -148,7 +155,7 @@ export const Channels = (props) => {
                         <div className="chat-profile">
                             <img className="pp" src="src/assets/images/profile.jpg" alt="pp"/>
                             <div className="chat-name">
-                                <h2>tj maurea dhanniela</h2>
+                                <h2>{channelInfo.name}</h2>
                                 <span>active</span>
                             </div>
                             <div>

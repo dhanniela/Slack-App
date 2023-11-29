@@ -20,6 +20,8 @@ export const DMSidebar = () => {
 
     let latestUserId = 0;
 
+    const [userInfo, setUserInfo] = useState({});
+
     const [inputValue, setInputValue] = useState('');
     const [showModal, setShowModal] = useState(false);
   
@@ -71,8 +73,9 @@ export const DMSidebar = () => {
         fetchUsers();
     }, []);
 
-    const selectUser = (userId) => {
-        setUserTargetId(userId);
+    const selectUser = (userData) => {
+        setUserTargetId(userData.id);
+        setUserInfo(userData);
         setRenderUserDms(true);
     }
 
@@ -145,7 +148,7 @@ export const DMSidebar = () => {
                         </div>
                     </div>
                 </section>
-                <DirectMessage userTargetId = {userTargetId} renderUserDms = {renderUserDms} />
+                <DirectMessage userInfo={userInfo} userTargetId = {userTargetId} renderUserDms = {renderUserDms} />
             </div>
         )
     }
@@ -153,7 +156,7 @@ export const DMSidebar = () => {
 
 const DMSideLi = ({selectUser, userData}) => {
     const handleClick = () => {
-        selectUser(userData.id)
+        selectUser(userData)
     }
 
     return (

@@ -11,7 +11,12 @@ import { useParams } from 'react-router-dom';
 export const DirectMessage = (props) => {
     const receiverId = props.userTargetId;
     const renderUserDms = props.renderUserDms;
+    const userInfo = props.userInfo;
+
     const [ targetId, setTargetId ] = useState(receiverId);
+    const [ user, setUser ] = useState(userInfo);
+
+
     const [message, setMessage] = useState("");
     const [dms, setDms] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -43,6 +48,7 @@ export const DirectMessage = (props) => {
 
     useEffect(() => {
         setTargetId(receiverId);
+        setUser(userInfo);
 
         if (renderUserDms){
             const interval = setInterval(() => {
@@ -74,7 +80,7 @@ export const DirectMessage = (props) => {
                         <div className="chat-profile">
                             <img className="pp" src="src/assets/images/profile.jpg" alt="pp"/>
                             <div className="chat-name">
-                                <h2>tj maurea dhanniela</h2>
+                                <h2>{user.email}</h2>
                                 <span>active</span>
                             </div>
                         </div>
