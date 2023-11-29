@@ -7,32 +7,37 @@ export const Sidebar = () => {
     
     const handleLogout = () => {
         localStorage.clear();
+
         navigate("/login");
     }
 
     return (
         <div className="sidebar-container">
-        <ul className="sidebar_main">
-            <CustomLink to="/profile">
-                <UserCircle2 className="sidebar_icon"/><br/>Profile
-            </CustomLink>
+            <ul className="sidebar_main">
+                <div className="top">
+                    <CustomLink to="/home">
+                        <Home className="sidebar_icons"/><br/>Home
+                    </CustomLink>
 
-            <CustomLink to="/home">
-                <Home className="sidebar_icon"/><br/>Home
-            </CustomLink>
+                    <CustomLink to="/sidechannels">
+                        <Hash className="sidebar_icons"/><br/>Channels
+                    </CustomLink>
 
-            <CustomLink to="/sidechannels">
-                <Hash className="sidebar_icon"/><br/>Channels
-            </CustomLink>
+                    <CustomLink to="/sidedm">
+                        <MessagesSquare className="sidebar_icons"/><br/>DM's
+                    </CustomLink>
+                </div>
+                
+                <div className="bottom">
+                    <CustomLink to="/profile">
+                        <img className="sidebar-icons" id="profile-icon" src="src/assets/images/profile.jpg" alt="pp"/>
+                    </CustomLink>
 
-            <CustomLink to="/sidedm">
-                <MessagesSquare className="sidebar_icon"/><br/>DM's
-            </CustomLink>
-            
-            <a className="logout-button" onClick={handleLogout}>
-                <LogOut className="logout-icon" />
-            </a>
-        </ul>
+                    <a className="logout-button" onClick={handleLogout}>
+                        <LogOut className="logout-icon" />
+                    </a>
+                </div>
+            </ul>
         </div>
     );
 }

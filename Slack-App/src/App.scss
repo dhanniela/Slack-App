@@ -48,10 +48,9 @@ a{
     overflow: hidden;
 
 }
- 
 
-.container{
-    overflow: hidden;
+.content-container{
+    overflow: auto;
 }
 
 
@@ -66,7 +65,7 @@ a{
 @import "styles/login";
 @import "styles/dm";
 @import "styles/channel";
-@import "styles/dmSidebar";
+// @import "styles/dmSidebar";
 @import "styles/spinner";
 @import "styles/modal";
 

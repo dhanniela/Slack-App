@@ -3,8 +3,8 @@ import { useState } from "react";
 import { Search, PlusSquare, Hash } from "lucide-react";
 import { getHeadersFromLocalStorage } from "./CommonUtils";
 import { Spinner } from "./Spinner";
-import _debounce from 'lodash/debounce';
 import { Channels } from "../pages/Channels";
+import _debounce from 'lodash/debounce';
 import { set } from "lodash";
 
 export const ChannelSidebar = () => {
@@ -16,13 +16,10 @@ export const ChannelSidebar = () => {
     const [isFetchDMDone, setIsFetchDMDone] = useState(false);    
     const [isSearchDone, setIsSearchDone] = useState(false);
     const [renderChannelDms, setRenderChannelDms] = useState(false);
-<<<<<<< HEAD
-=======
 
     const [errorFound, setErrorFound] = useState(false);
     const [error, setError] = useState(false);
     
->>>>>>> bfe28fcbffc69f42ef865cdaa69b014c8a3e2d5b
     const [showModal, setShowModal] = useState(false);
 
     //MODALS
@@ -116,11 +113,7 @@ export const ChannelSidebar = () => {
         return () => clearInterval(interval);
     }, []);
 
-<<<<<<< HEAD
-    if(loading) {
-=======
-    if(!isFetchChannelDone || errorFound) {
->>>>>>> bfe28fcbffc69f42ef865cdaa69b014c8a3e2d5b
+    if(loading || errorFound) {
         return (
             <div className="channel-container">
                 <section>

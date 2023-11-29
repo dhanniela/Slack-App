@@ -1,18 +1,35 @@
 .sidebar-container{
-    width: 5vw;
+    width: clamp(1.5rem, 0.786rem + 3.571vw, 4rem);
 }
 
 .sidebar_main{
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    height: 100vh;
+    justify-content: space-around;
     flex-direction: column;
-    font-size: 0.7rem;
     text-align: center;
-    background-color: #000000bb;
-    padding: 1rem;
+    font-size: clamp(0.3rem, 0.186rem + 0.571vw, 0.7rem);
+    height: 100vh;
+    background-color: #212121;
+    color: white;
+    padding: 0;
     margin: 0;
+    border-radius: .5rem 0 0 .5rem ;
+}
+
+.sidebar_main .top{
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    height: 40vh;
+    margin-bottom: 4rem;
+}
+
+.sidebar_main .bottom{
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    height: 20vh;
 }
 
 .custom_link{
@@ -21,17 +38,56 @@
     align-items: center;
     flex-direction: column;
     height: 7vh;
-    width: 6vw;
-    padding: 1rem 0;
+    width: clamp(1.8rem, 0.764rem + 2.762vw, 3.25rem);
+    margin: 0;
+    padding: 0;
     cursor: pointer;
     color: white;
     &:hover{
-        background-color: rgba(33, 32, 32, 0.621);
-        .sidebar_icon{
-            height: 2.5vw;
-            width: 2.5vw;
+        background-color: #535353;
+        border-radius: .5rem;
+        .sidebar_icons{
+            width: clamp(0.9rem, 0.8rem + 0.5vw, 1.25rem);
+            height: clamp(0.9rem, 0.8rem + 0.5vw, 1.25rem);
         }
     }
 }
 
+.active{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #535353;
+    cursor: pointer;
+    height: 7vh;
+    width: clamp(1.8rem, 0.764rem + 2.762vw, 3.25rem);
+    margin: 0;
+    padding: 0;
+    border-radius: .5rem;
+}
 
+.sidebar_icons{
+    width: clamp(0.8rem, 0.6rem + 1vw, 1.5rem);
+    height: clamp(0.8rem, 0.6rem + 1vw, 1.5rem);
+}
+
+#profile-icon{
+    width: clamp(1.25rem, 0.893rem + 1.786vw, 2.5rem);
+    height: clamp(1.25rem, 0.893rem + 1.786vw, 2.5rem);
+    border-radius: 2rem;
+    &:hover{
+        background-color: none;
+    }
+
+}
+
+.logout-icon{
+    cursor: pointer;
+    width: clamp(0.8rem, 0.6rem + 1vw, 1.5rem);
+    height: clamp(0.8rem, 0.6rem + 1vw, 1.5rem);
+    &:hover{
+        width: clamp(0.9rem, 0.8rem + 0.5vw, 1.25rem);
+        height: clamp(0.9rem, 0.8rem + 0.5vw, 1.25rem);
+    }
+}

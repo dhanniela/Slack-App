@@ -1,24 +1,22 @@
 import { useState } from "react";
 import { useEffect } from "react";
-import { UserCircle2, Paperclip, Camera, Mic, SendHorizontal, Smile, AtSign } from "lucide-react";
-import {getUserDmsSender} from "../components/CommonUtils"
+import { Paperclip, Camera, Mic, SendHorizontal, Smile, AtSign } from "lucide-react";
 import {sendDms} from "../components/CommonUtils"
-import { useParams } from 'react-router-dom';
 import { getHeadersFromLocalStorage } from "../components/CommonUtils";
 import { extractHourAndMinutes } from "../components/CommonUtils";
+import { Spinner } from "../components/Spinner";
+import {getUserDmsSender} from "../components/CommonUtils"
+import { useParams } from 'react-router-dom';
 
 export const DirectMessage = (props) => {
     const receiverId = props.userTargetId;
-    
     const renderUserDms = props.renderUserDms;
-
-    // const { receiverId } = useParams();
     const [ targetId, setTargetId ] = useState(receiverId);
     const [message, setMessage] = useState("");
     const [dms, setDms] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [timeGrouping,setTimeGrouping] = useState([]);
     const currentUser = getHeadersFromLocalStorage();
+    const [timeGrouping,setTimeGrouping] = useState([]);
 
     const fetchDms = async (targetId) => {
         const get  = {
@@ -44,7 +42,6 @@ export const DirectMessage = (props) => {
     };
 
     useEffect(() => {
-        
         setTargetId(receiverId);
 
         if (renderUserDms){
@@ -53,8 +50,7 @@ export const DirectMessage = (props) => {
               }, 5000);
 
             return () => clearInterval(interval);
-        }    
-        
+        }
     }, [receiverId]);
 
     const handleSend = (e) =>{
@@ -68,7 +64,7 @@ export const DirectMessage = (props) => {
     } 
 
     if(loading){
-        return(<div>loading...</div>);
+        return(<Spinner/>);
     }
     else {
         return (
