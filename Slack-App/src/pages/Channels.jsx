@@ -85,6 +85,33 @@ export const Channels = (props) => {
         .catch(err=> console.log(err))
     }
 
+    const addMember = (channelId, userTargetId) => {
+        const payload = {
+            id: channelId,
+            member_id: userTargetId
+        }
+    
+        const post  = {
+            method: 'POST', 
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json',
+                'access-token' : currentUser.accessToken,  
+                'client' : currentUser.client, 
+                'expiry' : currentUser.expiry, 
+                'uid' : currentUser.uid
+            },
+            body: JSON.stringify(payload)
+        }
+    
+        const url = `http://206.189.91.54/api/v1/channel/add_member`;
+        
+        fetch(url, post)
+        .then(res=>res.json())
+        .then(data=> console.log(data))
+        .catch(err=> console.log(err))
+    }
+
     useEffect(() => {
 
         setChannelInfo(channelData);
@@ -109,6 +136,12 @@ export const Channels = (props) => {
         setMessage(e.target.value);
     } 
 
+    const handleAddMember = (userTargetId) => {
+        setShowModal(false);
+        
+        addMember(channelInfo.id, userTargetId);
+    }
+
     if (loading){
         return (
             <section>
@@ -121,8 +154,8 @@ export const Channels = (props) => {
                                 <span>active</span>
                             </div>
                             <div>
-                            <UserPlus onClick={handleOpenModal} className="icons"/>
-                            <Modal showModal={showModal} handleClose={handleCloseModal} />
+                            <UserPlus className="icons"/>
+                            <Modal/>
                             </div>
                         </div>
                     </div>
@@ -160,30 +193,17 @@ export const Channels = (props) => {
                             </div>
                             <div>
                             <UserPlus onClick={handleOpenModal} className="icons"/>
-                            <Modal showModal={showModal} handleClose={handleCloseModal} currentUser={currentUser} />
+                            <Modal handleAddMember={handleAddMember} showModal={showModal} handleClose={handleCloseModal}/>
                             </div>
                         </div>
                     </div>
         
                     <ul>
-
                         {dms.map(dm => {
                                 return (<>
                                     <Message response = {dm}/>
                                 </>)}
                         )}
-                        {/* <li>             
-                            <div className="chat-box">
-                                <div className="sender">
-                                    <div className="chat-message">
-                                        <h2>sender</h2>
-                                        <span>date</span>
-                                        <span>message</span>
-                                    </div>
-                                    <img className="pp" src="src/assets/images/profile.jpg" alt="pp"/>
-                                </div>
-                            </div>
-                        </li> */}
                     </ul>
         
                     <div className="chat-footer">
@@ -207,99 +227,8 @@ export const Channels = (props) => {
             </section>
         )
     }
-
-
 }
-const InnerModal = ({handleCloseInnerModal, showInnerModal}) => {
 
-    if (!showInnerModal) {
-        return null;
-      }
-
-    return (
-      <div className="inner-modal">
-        <div className="inner-modal-content">
-            <div>
-                <ul>
-                    <li onClick={handleCloseInnerModal} className="channel-item">
-                        <div className="channel-list">
-                            <h2>name</h2>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-      </div>
-    );
-  };
-
-const Modal = ({ showModal, handleClose, currentUser }) => {
-    const [showInnerModal, setShowInnerModal] = useState(false);
-    const [inputValue, setInputValue] = useState('');
-  
-    const handleOpenInnerModal = () => {
-      setShowInnerModal(true);
-    };
-
-    const handleCloseInnerModal = () => {
-        setShowInnerModal(false);
-      };
-  
-
-    const handleChange = () => {
-        setShowInnerModal(true);
-    }
-    
-    if (!showModal) {
-        return null;
-    }
-
-    // const [users, setUsers] = useState([]);
-    // const [originalUsers, setOriginalUsers] = useState([]);
-
-    // const fetchUsers = async () => {
-    //     const get  = {
-    //         method: 'GET', 
-    //         mode: 'cors',
-    //         headers: {
-    //             'access-token' : currentUser.accessToken,  
-    //             'client' : currentUser.client, 
-    //             'expiry' : currentUser.expiry, 
-    //             'uid' : currentUser.uid
-    //         }
-    //     }
-    //     try{
-    //         const response = await fetch(`http://206.189.91.54/api/v1/users`,get);
-    //         const data = await response.json();
-
-    //         setUsers(data.data);
-    //         setOriginalUsers(data.data);
-    //     } catch (error) {
-    //         console.error(`Error fetching users:`, error);
-    //     } finally {
-    //         setLoading(false);
-    //     }
-    // };
-
-    // useEffect(() => {
-    //     fetchUsers();
-    // }, []);
-
-    return (
-        <div className="channel-modal">
-            <div className="channel-modal-content">
-                <span className="close" onClick={handleClose}>
-                    &times;
-                </span>
-                <form action="#">
-                    <input type="text" placeholder="Add more people" value={inputValue} onChange={handleChange}/>
-                    <InnerModal handleCloseInnerModal={handleCloseInnerModal} showInnerModal={showInnerModal}/>
-                    <button type="submit">Add</button>
-                </form>
-            </div>
-        </div>
-    );
-}
 
 const Message = (props) => {
     const response = props.response;
@@ -320,5 +249,127 @@ const Message = (props) => {
     )
 
 }
+
+const Modal = ({handleAddMember, showModal, handleClose }) => {
+    const [showInnerModal, setShowInnerModal] = useState(false);
+    const [inputValue, setInputValue] = useState('');
+
+    const [users, setUsers] = useState([]);
+    const [originalUsers, setOriginalUsers] = useState([]);
+    const currentUser = getHeadersFromLocalStorage();
+    const [isFetchDone, setIsFetchDone] = useState(false);
+  
+    const fetchUsers = async () => {
+        const get  = {
+            method: 'GET', 
+            mode: 'cors',
+            headers: {
+                'access-token' : currentUser.accessToken,  
+                'client' : currentUser.client, 
+                'expiry' : currentUser.expiry, 
+                'uid' : currentUser.uid
+            }
+        }
+        try{
+            const response = await fetch(`http://206.189.91.54/api/v1/users`,get);
+            const data = await response.json();
+
+            setUsers(data.data);
+            setOriginalUsers(data.data);
+        } catch (error) {
+            console.error(`Error fetching users:`, error);
+        } finally {
+            setIsFetchDone(true);
+        }
+    }
+
+    useEffect(() => {
+        fetchUsers();
+    }, [])
+
+    if (!showModal) {
+        return null;
+    }
+
+    const searchUsers = (search,userArr) => {
+        const regex = new RegExp(search, 'i');
+    
+        const filteredResults = userArr.filter(
+            (user) => regex.test(user.email)
+          );
+    
+        setUsers(filteredResults);
+    }
+
+    const handleChange = (e) => {
+        setInputValue(e.target.value);
+
+        searchUsers(e.target.value,originalUsers);
+
+        setShowInnerModal(true);
+    }
+
+    const getDataFromInnerModal = (userData) => {
+        console.log(userData);
+        handleAddMember(userData.id);
+        setShowInnerModal(false);
+      };
+
+    return (
+        <div className="channel-modal">
+            <div className="channel-modal-content">
+                <span className="close" onClick={handleClose}>
+                    &times;
+                </span>
+                <form action="#">
+                    <input type="text" placeholder="Add more people" value={inputValue} onChange={handleChange}/>
+                    <InnerModal isFetchDone={isFetchDone} users={users} getDataFromInnerModal={getDataFromInnerModal} showInnerModal={showInnerModal}/>
+                    <button type="submit">Add</button>
+                </form>
+            </div>
+        </div>
+    );
+}
+
+const InnerModal = ({isFetchDone, users, getDataFromInnerModal, showInnerModal}) => {
+
+    if (!showInnerModal || !isFetchDone) {
+        return null;
+    }
+
+    return (
+      <div className="inner-modal">
+        <div className="inner-modal-content">
+            <div>
+                <ul>
+                {
+                    users.map(userData => {
+                        return (<>
+                            <ModalCards getDataFromInnerModal={getDataFromInnerModal} userData={userData}/>
+                        </>)}
+                    )
+                    }
+                </ul>
+            </div>
+        </div>
+      </div>
+    );
+  }
+
+  const ModalCards = ({getDataFromInnerModal, userData}) => {
+
+    const setId = () => {
+        getDataFromInnerModal(userData);
+    }
+
+    return(    
+        <li onClick={setId} className="channel-item">
+            <div className="channel-list">
+                <h2>{userData.email}</h2>
+            </div>
+        </li>
+    )
+  }
+
 
 
