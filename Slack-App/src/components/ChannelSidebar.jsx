@@ -6,6 +6,7 @@ import { Spinner } from "./Spinner";
 import _debounce from 'lodash/debounce';
 import { useNavigate } from "react-router-dom/dist";
 import { Channels } from "../pages/Channels";
+import { set } from "lodash";
 
 export const ChannelSidebar = () => {
     const [originalUsers, setOriginalUsers] = useState([]);
@@ -17,6 +18,9 @@ export const ChannelSidebar = () => {
     const [isFetchChannelDone, setIsFetchChannelDone] = useState(false);
     const [channelTargetId, setChannelTargetId] = useState(0);
     const [renderChannelDms, setRenderChannelDms] = useState(false);
+
+    const [errorFound, setErrorFound] = useState(false);
+    const [error, setError] = useState(false);
     
     const [showModal, setShowModal] = useState(false);
 
@@ -44,7 +48,12 @@ export const ChannelSidebar = () => {
             const response = await fetch(`http://206.189.91.54/api/v1/channels`,get);
             const data = await response.json();
 
-            setChannels(data.data);
+            if (data.data == undefined){
+                setErrorFound(true);
+                setError(data.errors);
+            } else {
+                setChannels(data.data);
+            }
         } catch (error) {
             console.error(`Error fetching channels:`, error);
         } finally {
@@ -105,7 +114,7 @@ export const ChannelSidebar = () => {
         return () => clearInterval(interval);
     }, []);
 
-    if(!isFetchChannelDone) {
+    if(!isFetchChannelDone || errorFound) {
         return (
             <div className="channel-container">
                 <section>
@@ -123,8 +132,10 @@ export const ChannelSidebar = () => {
                             </div>
                         </div>
 
-                        <div className="channel-list-container">
-                            <Spinner/>
+                        <div className="channel-list-container"> 
+                            { 
+                                (!errorFound)? (<Spinner/>) : (<div>{error}</div>)
+                            }
                         </div>
                     </div>
                 </section>
