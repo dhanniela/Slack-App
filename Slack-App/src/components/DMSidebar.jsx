@@ -24,6 +24,8 @@ export const DMSidebar = () => {
 
     const [inputValue, setInputValue] = useState('');
     const [showModal, setShowModal] = useState(false);
+
+    const [recentDms, setRecentDms] = useState([]);
   
     const handleOpenModal = () => {
       setShowModal(true);
@@ -74,9 +76,15 @@ export const DMSidebar = () => {
     }, []);
 
     const selectUser = (userData) => {
+
         setUserTargetId(userData.id);
         setUserInfo(userData);
         setRenderUserDms(true);
+        setShowModal(false);
+
+        recentDms.push(userData);
+        setRecentDms(recentDms);
+        setInputValue("");
     }
 
     if(loading) {
@@ -144,7 +152,16 @@ export const DMSidebar = () => {
                         </div>
 
                         <div className="dms-list-container">
-                            recent message here
+                            <ul>
+                                {
+                                recentDms != undefined?
+                                    recentDms.map(user => {
+                                        return(<>
+                                            <RecentMessages userData={user}/>
+                                        </>)
+                                    }):<div>Recent Messages Here</div>
+                                }
+                            </ul>
                         </div>
                     </div>
                 </section>
@@ -202,4 +219,25 @@ const Modal = ({ selectUser, showModal, handleClose, users }) => {
       </div>
     );
   };
+
+  const RecentMessages = ({userData}) => {
+    const handleClick = () => {
+    }
+    return (
+        <li onClick={handleClick} className="dm-item">
+            <div className="dms-list">
+                <img className="dm-pp" src="src/assets/images/profile.jpg" alt="pp"/>
+                <div className="right">
+                    <div className="dm-chat-name">
+                        <h5>{userData.email}</h5>
+                        <span>September 28</span>
+                    </div>
+                    <div className="dm-truncate">
+                        <span>hello</span>
+                    </div>
+                </div>
+            </div>
+        </li>
+    )
+}
 

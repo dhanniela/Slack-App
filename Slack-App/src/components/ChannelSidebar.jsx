@@ -272,7 +272,6 @@ const ChannelCard = ({selectCard, channelData}) => {
           );
     
         setUsers(filteredResults);
-        console.log(users);
     }
 
     const handleChange = (e) => {
