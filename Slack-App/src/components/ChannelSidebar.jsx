@@ -4,28 +4,26 @@ import { Search, PlusSquare, Hash } from "lucide-react";
 import { getHeadersFromLocalStorage } from "./CommonUtils";
 import { Spinner } from "./Spinner";
 import _debounce from 'lodash/debounce';
-import { useNavigate } from "react-router-dom/dist";
 import { Channels } from "../pages/Channels";
 
 export const ChannelSidebar = () => {
-    const [originalUsers, setOriginalUsers] = useState([]);
-    const [dms, setDms] = useState([]);
     const [channels, setChannels] = useState([]);
-    const currentUser = getHeadersFromLocalStorage();
-    const [isSearchDone, setIsSearchDone] = useState(false);
-    const [isFetchDMDone, setIsFetchDMDone] = useState(false);
-    const [isFetchChannelDone, setIsFetchChannelDone] = useState(false);
     const [channelTargetId, setChannelTargetId] = useState(0);
+    const currentUser = getHeadersFromLocalStorage();
+    const [dms, setDms] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [isFetchDMDone, setIsFetchDMDone] = useState(false);    
+    const [isSearchDone, setIsSearchDone] = useState(false);
     const [renderChannelDms, setRenderChannelDms] = useState(false);
-    
     const [showModal, setShowModal] = useState(false);
 
+    //MODALS
     const handleOpenModal = () => {
-      setShowModal(true);
+        setShowModal(true);
     };
-  
+    
     const handleCloseModal = () => {
-      setShowModal(false);
+        setShowModal(false);
     };
 
     //FETCH CHANNEL DMS
@@ -48,7 +46,7 @@ export const ChannelSidebar = () => {
         } catch (error) {
             console.error(`Error fetching channels:`, error);
         } finally {
-            setIsFetchChannelDone(true);
+            setLoading(false);
         }
     }
 
@@ -87,25 +85,25 @@ export const ChannelSidebar = () => {
 
     const selectCard = (channelId) => {
         setChannelTargetId(channelId);
+
         setRenderChannelDms(true);
     }
 
     useEffect(() => {
         setChannelTargetId(channelTargetId, () => {
             console.log('State updated:', channelTargetId);
-          });
-        console.log(channelTargetId);
+        });
     }, [channelTargetId]);
 
     useEffect(() => {
         const interval = setInterval(() => {
             fetchUserChannels();
-          }, 10000);
+        }, 10000);
       
         return () => clearInterval(interval);
     }, []);
 
-    if(!isFetchChannelDone) {
+    if(loading) {
         return (
             <div className="channel-container">
                 <section>
@@ -141,6 +139,7 @@ export const ChannelSidebar = () => {
                             <PlusSquare onClick={handleOpenModal} className="icons"/>
                             <Modal addNewChannel={addNewChannel} showModal={showModal} handleClose={handleCloseModal}/>
                         </div>
+
                         <div className="channel-search">
                             <div className="channel-searchBar">
                                 <Search className="icons"/>
@@ -149,15 +148,13 @@ export const ChannelSidebar = () => {
                         </div>
 
                         <div className="channel-list-container">
-                            <ul>
-                                {channels.map(channelData => {
-                                    return (
-                                        <>
-                                            <ChannelCard selectCard={selectCard}  channelData={channelData}/>
-                                        </>
-                                    )}
+                            {channels.map(channelData => {
+                                return (
+                                    <>
+                                        <ChannelCard selectCard={selectCard} channelData={channelData}/>
+                                    </>
                                 )}
-                            </ul>
+                            )}
                         </div>
                     </div>
                 </section>
@@ -169,18 +166,19 @@ export const ChannelSidebar = () => {
 
 
 const ChannelCard = ({selectCard, channelData}) => {
-
     const handleClick = () => {
         selectCard(channelData.id);
     }
 
     return (
-        <li onClick={handleClick} className="channel-item">
-            <div className="channel-list">
+        <ul>
+            <li onClick={handleClick} className="channel-item">
+                <div className="channel-list">
                     <Hash className="icons"/>
                     {channelData.name}
-            </div>
-        </li>
+                </div>
+            </li>
+        </ul>
     )
 }
 
