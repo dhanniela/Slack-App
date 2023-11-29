@@ -44,6 +44,8 @@ export const DirectMessage = (props) => {
     };
 
     useEffect(() => {
+        
+        setTargetId(receiverId);
 
         if (renderUserDms){
             const interval = setInterval(() => {

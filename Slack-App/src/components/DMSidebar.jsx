@@ -96,7 +96,6 @@ export const DMSidebar = () => {
         <DirectMessage/>
     </div>
     }
-
     else {
         const searchUsers = (search,userArr) => {
             const regex = new RegExp(search, 'i');
@@ -136,7 +135,7 @@ export const DMSidebar = () => {
                             <div className="dm-searchBar">
                                 <Search className="icons"/>
                                 <input onChange={handleChange} value={inputValue} id="search-dm" type="text" placeholder="Find a DM"/>
-                                <Modal showModal={showModal} users={users} handleClose={handleCloseModal} />
+                                <Modal selectUser={selectUser} showModal={showModal} users={users} handleClose={handleCloseModal} />
                                 
                             </div>
                         </div>
@@ -175,11 +174,7 @@ const DMSideLi = ({selectUser, userData}) => {
     )
 }
 
-const Modal = ({ showModal, handleClose, users }) => {
-    const selectUser = (userId) => {
-        setUserTargetId(userId);
-        setRenderUserDms(true);
-    }
+const Modal = ({ selectUser, showModal, handleClose, users }) => {
 
     if (!showModal) {
       return null;
