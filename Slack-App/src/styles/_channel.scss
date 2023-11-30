@@ -2,6 +2,8 @@
     display: flex;
 }
 
+//CHANNEL SIDEBAR
+
 .channelSidebar-container{
     width: clamp(9rem, 3.571rem + 27.143vw, 28rem);
     display: flex;
@@ -95,6 +97,8 @@
     margin: 0 0 0 clamp(0.15rem, 0.121rem + 0.143vw, 0.25rem);
 }
 
+//CHANNEL MODAL
+
 .channel-modal {
     position: fixed;
     display: flex;
@@ -176,40 +180,189 @@
 .description{
     font-size: clamp(0.5rem, 0.414rem + 0.429vw, 0.8rem);
     color: #ffffffba;
-    margin: .5rem 0;
+    margin: .5rem .25rem;
     overflow: auto;
-    position: relative;
 }
 
 .add-users .description{
     height: 6vh;
 }
 
+.inner-modal{
+    position: fixed;
+    top:  57%;
+    left: clamp(3rem, -5.457rem + 42.286vw, 32.6rem);
+    width: clamp(14rem, 10.857rem + 15.714vw, 25rem);
+    z-index: 2; /* Ensure the inner modal appears above the main modal */
+}
 
-//   .inner-modal {
-//     position: fixed;
-//     top: 50%;
-//     left: 0;
-//     width: 40%;
-//     height: 40%;
-//     background-color: rgba(0, 0, 0, 0.5);
-//     z-index: 2; /* Ensure the inner modal appears above the main modal */
-//   }
+.inner-modal-content {
+    justify-content: flex-start;
+    flex-direction: column;
+    font-size: clamp(0.5rem, 0.357rem + 0.714vw, 1rem);
+    background-color: #1a1d21;
+    max-height: 10vh;
+    padding-left: .5rem;
+    width: clamp(13.6rem, 10.514rem + 15.429vw, 24.4rem);
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
+    border-radius: 0 0 .5rem .5rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    h5{
+        margin: 0;
+    }
+}
 
-//   .inner-modal h2{
-//     color: black;
-//   }
-  
-//   .inner-modal-content {
-//     position: absolute;
-//     top: 50%;
-//     left: 50%;
-//     transform: translate(-50%, -50%);
-//     background-color: #fff;
-//     padding: 20px;
-//     width: 80%;
-//     height: 80%;
-//     border-radius: 5px;
-//     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-//   }
+.dm-inner-modal{
+    position: fixed;
+    top:  48.5%;
+    left: clamp(3rem, -5.457rem + 42.286vw, 32.6rem);
+    width: clamp(14rem, 10.857rem + 15.714vw, 25rem);
+    z-index: 2;
+}
 
+// CHANNEL DMS
+.chat-container{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background: #1a1d21;
+    width: clamp(9.5rem, -4.357rem + 69.286vw, 58rem);
+}
+
+.chat-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    height: 10vh;
+    width: clamp(9.5rem, -4.357rem + 69.286vw, 58rem);
+}
+
+.chat-profile {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin-left: clamp(0.5rem, 0.143rem + 0.952vw, 1rem);
+    width: clamp(5rem, 0.714rem + 21.429vw, 20rem);
+}
+
+.chat-profile h2{
+    font-size: clamp(0.5rem, 0.214rem + 1.429vw, 1.5rem);
+}
+
+.chat-profile .hash-icon{
+    width: clamp(0.5rem, 0.214rem + 1.429vw, 1.5rem);
+    margin-right: clamp(0.5rem, 0.143rem + 0.952vw, 1rem);
+    color: #6f7372;
+}
+
+.chat-header .icons{
+    width: clamp(0.5rem, 0.214rem + 1.429vw, 1.5rem);
+    margin-right: clamp(0.5rem, 0.143rem + 0.952vw, 1rem);
+}
+
+.chat-box{
+    height: 70vh;
+    overflow: auto;
+}
+
+.sender{
+    display: flex;
+    color: white;
+    padding-bottom: 1rem;
+}
+
+.sender .pp{
+    width: clamp(1rem, 0.286rem + 1.905vw, 2rem);
+    height: clamp(1rem, 0.286rem + 1.905vw, 2rem);
+    border-radius: clamp(0.15rem, -0.1rem + 0.667vw, 0.5rem);
+    margin: clamp(0.5rem, 0.471rem + 0.143vw, 0.6rem) clamp(0.25rem, 0.036rem + 1.071vw, 1rem);
+}
+
+.chat-message{
+    display: flex;
+    flex-direction: column;
+    width: clamp(5.5rem, -7.786rem + 66.429vw, 52rem);
+    margin-top: .4rem;
+}
+
+.chat-message .name{
+    display: flex;
+    align-items: center;
+    font-size: clamp(0.5rem, 0.357rem + 0.714vw, 1rem);
+    margin: 0 0 .25rem 0;
+}
+
+.chat-message .date-time{
+    font-weight: 300;
+    margin-left: clamp(0.5rem, 0.357rem + 0.714vw, 1rem);
+    margin-top: .15rem;
+    font-size: clamp(0.3rem, 0.157rem + 0.714vw, 0.8rem);
+
+}
+
+.chat-message .message{
+    font-size: clamp(0.5rem, 0.357rem + 0.714vw, 1rem);
+    margin: 0;
+    font-weight: 300;
+    word-break: break-word;
+}
+
+.chat-footer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: clamp(5rem, 3.571rem + 7.143vw, 10rem);
+    border-radius: .5rem;
+    background: #222529;
+    width: clamp(9rem, -4.429rem + 67.143vw, 56rem);
+    border: 1px solid #ffffff;
+    margin: .5rem auto;
+}
+
+.chat-footer textarea{
+    background: #222529;
+    min-height: clamp(3rem, 1.857rem + 5.714vw, 7rem);
+    width: clamp(8rem, -5.429rem + 67.143vw, 55rem);
+    outline: none;
+    border: none;
+    resize: none;
+    font-size: clamp(0.5rem, 0.357rem + 0.714vw, 1rem);
+    margin: .25rem auto 0 auto;
+    color: white;
+    font-family: $fontStyle;
+    font-weight: 300;
+}
+
+.chat-footer .shortcut-icons{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #adaeaf;
+    margin: 0 auto .25rem auto;
+    width: clamp(8rem, -5.429rem + 67.143vw, 55rem);
+}
+
+.chat-footer .attachment-icons{
+    display: flex;  
+    justify-content: space-between;
+    align-items: center;
+    width: clamp(5rem, 2.143rem + 14.286vw, 15rem);
+}
+
+.chat-footer .send-icon{
+    display: flex;  
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat-footer .icons{
+    width: clamp(0.5rem, 0.286rem + 1.071vw, 1.25rem);
+}
+
+.attachment-icons span{
+    font-size: clamp(0.8rem, 0.6rem + 1vw, 1.5rem);
+    font-weight: 10;
+}

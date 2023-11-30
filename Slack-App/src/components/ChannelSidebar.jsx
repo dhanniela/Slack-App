@@ -138,13 +138,11 @@ export const ChannelSidebar = () => {
                         </div>
 
                         <div className="channel-list-container"> 
-                            { 
-                                (!errorFound)? (<Spinner/>) : (<div>{error}</div>)
-                            }
+                            {(!errorFound)? (<Spinner/>) : (<div className="channel-list"><h5>{error}</h5></div>)}
                         </div>
                     </div>
                 </section>
-                <Channels />
+                <section className="blank-page"></section>
             </div>
         )
     } else {
@@ -182,7 +180,6 @@ export const ChannelSidebar = () => {
     }
 }
 
-
 const ChannelCard = ({selectCard, channelData}) => {
     const handleClick = () => {
         selectCard(channelData);
@@ -200,22 +197,16 @@ const ChannelCard = ({selectCard, channelData}) => {
     )
 }
 
-  const Modal = ({addNewChannel, showModal, handleClose }) => {
-
+const Modal = ({addNewChannel, showModal, handleClose }) => {
     const [users, setUsers] = useState([]);
     const [originalUsers, setOriginalUsers] = useState([]);
-
     const currentUser = getHeadersFromLocalStorage();
     const [userTargetId, setUserTargetId] = useState(0);
     const [isFetchDone, setIsFetchDone] = useState(false);
-
     const [showInnerModal, setShowInnerModal] = useState(false);
     const [inputValue, setInputValue] = useState('');
-
     const [userIds, setUserIds] = useState([]);
-
     const [usersData, setUsersData] = useState([]);
-    
 
     const fetchUsers = async () => {
         const get  = {
@@ -246,30 +237,22 @@ const ChannelCard = ({selectCard, channelData}) => {
     }, [])
 
     const getUserIdsFromModal = (userData) => {
-        console.log(userData);
-
         userIds.push(userData.id)
         setUserIds(userIds);
 
         usersData.push(userData);
         setUsersData(usersData);
 
-        console.log(usersData);
-
         setInputValue("");
         setShowInnerModal(false);
-      }
-  
-    if (!showModal) {
-      return null;
     }
 
-    const searchUsers = (search,userArr) => {
+    const searchUsers = (search, userArr) => {
         const regex = new RegExp(search, 'i');
     
         const filteredResults = userArr.filter(
             (user) => regex.test(user.email)
-          );
+        );
     
         setUsers(filteredResults);
     }
@@ -277,7 +260,7 @@ const ChannelCard = ({selectCard, channelData}) => {
     const handleChange = (e) => {
         setInputValue(e.target.value);
 
-        searchUsers(e.target.value,originalUsers);
+        searchUsers(e.target.value, originalUsers);
 
         setShowInnerModal(true);
     }
@@ -293,85 +276,82 @@ const ChannelCard = ({selectCard, channelData}) => {
 
         setInputValue("");
         handleClose();
+
         e.target.channelNameInput.value = "";
     }
+
+    if (!showModal) {
+        return null;
+    }
     
-      return (
+    return (
         <div className="channel-modal">
-          <div className="channel-modal-content">
-            
-            <div className="channel-modal-header">
-                <h2>Create a Channel</h2>
-                <span className="close" onClick={handleClose}>
-                    &times;
-                </span>
-            </div>            
-            <form onSubmit={postToDmSideBar}  action="#">
-                <div className="create-channel">
-                        <input name="channelNameInput" type="text" placeholder="Name your channel"/>
-                        <span className="description">Channels are where conversations happen around a topic. Use a name that is easy to find and understand.</span>
-                </div>
-                <div className="add-users">
+            <div className="channel-modal-content">
+                <div className="channel-modal-header">
+                    <h2>Create a Channel</h2>
+                    <span className="close" onClick={handleClose}>
+                        &times;
+                    </span>
+                </div>   
+
+                <form onSubmit={postToDmSideBar} action="#">
+                    <div className="create-channel">
+                            <input name="channelNameInput" type="text" placeholder="Name your channel"/>
+                            <span className="description">
+                                Channels are where conversations happen around a topic. Use a name that is easy to find and understand.
+                            </span>
+                    </div>
+
+                    <div className="add-users">
                         <input type="text" placeholder="Add people" value={inputValue} onChange={handleChange}/>
                         <InnerModal isFetchDone={isFetchDone} users={users} handleCloseInnerModal={getUserIdsFromModal} showInnerModal={showInnerModal}/>
                         <div className="description">
-                            {/* <span>Connect with more people.</span> */}
-                            {usersData !== undefined? 
-                            usersData.map(userData => {
-                                return (
-                                    <div>{userData.email}</div>
-                                )
-                            }):<span>Connect with more people.</span>
+                            {
+                                usersData !== (undefined)? (usersData.map(userData => {
+                                    return (
+                                        <div>{userData.email}</div>
+                                    )
+                                })) : (<span>Connect with more people.</span>)
                             }                       
                         </div>
-                </div>
-                <button type="submit" className="create-channel-button">Create</button>                   
-            </form>
-          </div>
+                    </div>
+
+                    <button type="submit" className="create-channel-button">Create</button>                   
+                </form>
+            </div>
         </div>
-      );
+    );
 }
 
 const InnerModal = ({isFetchDone, users, handleCloseInnerModal, showInnerModal}) => {
-
     if (!showInnerModal || !isFetchDone) {
         return null;
     }
 
     return (
-      <div className="inner-modal">
-        <div className="inner-modal-content">
-            <div>
-                <ul>
-                    {
-                    users.map(userData => {
-                        return (<>
-                            <ModalCards handleCloseInnerModal={handleCloseInnerModal} userData={userData}/>
-                        </>)}
-                    )
-                    }
-                
-                </ul>
+        <div className="inner-modal">
+            <div className="inner-modal-content">
+                {users.map(userData => {
+                    return (<>
+                        <ModalCards handleCloseInnerModal={handleCloseInnerModal} userData={userData}/>
+                    </>)}
+                )}
             </div>
         </div>
-      </div>
     );
-  }
+}
 
-  const ModalCards = ({handleCloseInnerModal, userData}) => {
-
+const ModalCards = ({handleCloseInnerModal, userData}) => {
     const setId = () => {
         handleCloseInnerModal(userData);
     }
 
     return(    
-        <li onClick={setId} className="channel-item">
-            <div className="channel-list">
-                <h2>{userData.email}</h2>
-            </div>
-        </li>
+        <ul>
+            <li onClick={setId} className="channel-item">
+                <h5>{userData.email}</h5>
+            </li>
+        </ul>
     )
-
-
-  }
+}
 

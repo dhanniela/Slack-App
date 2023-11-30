@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useEffect } from "react";
-import { UserPlus, Paperclip, Camera, Mic, SendHorizontal, Smile, AtSign } from "lucide-react";
-import {getUserDmsSender} from "../components/CommonUtils"
-import {sendDms} from "../components/CommonUtils"
+import { UserPlus, Paperclip, Camera, Mic, SendHorizontal, Smile, AtSign, Hash } from "lucide-react";
+import { getUserDmsSender } from "../components/CommonUtils"
+import { sendDms } from "../components/CommonUtils"
 import { useParams } from 'react-router-dom';
 import { getHeadersFromLocalStorage } from "../components/CommonUtils";
 import { extractHourAndMinutes } from "../components/CommonUtils";
@@ -11,19 +11,13 @@ import { Spinner } from "../components/Spinner";
 
 export const Channels = (props) => {
     const channelTargetId = props.channelTargetId;
-    
     const renderChannelDms = props.renderChannelDms;
-
     const channelData = props.channelData;
-
     const [channelInfo, setChannelInfo] = useState(channelData); 
-
     const currentUser = getHeadersFromLocalStorage();
     const [showModal, setShowModal] = useState(false);
-
     const [loading, setLoading] = useState(true);
     const [dms, setDms] = useState(false);
-
     const [message, setMessage] = useState("");
 
     const handleOpenModal = () => {
@@ -113,17 +107,15 @@ export const Channels = (props) => {
     }
 
     useEffect(() => {
-
         setChannelInfo(channelData);
 
         if (renderChannelDms){
             const interval = setInterval(() => {
                 fetchDms(channelTargetId);
-              }, 5000);
+            }, 5000);
 
             return () => clearInterval(interval);
         }    
-        
     }, [channelTargetId]);
     
     const handleSend = (e) =>{
@@ -138,47 +130,12 @@ export const Channels = (props) => {
 
     const handleAddMember = (userTargetId) => {
         setShowModal(false);
-        
         addMember(channelInfo.id, userTargetId);
     }
 
-    if (loading){
+    if(loading) {
         return (
-            <section>
-                <div className="chat-container">
-                    <div className="chat-header">
-                        <div className="chat-profile">
-                            <img className="pp" src="src/assets/images/profile.jpg" alt="pp"/>
-                            <div className="chat-name">
-                                <h2>Loading</h2>
-                                <span>active</span>
-                            </div>
-                            <div>
-                            <UserPlus className="icons"/>
-                            <Modal/>
-                            </div>
-                        </div>
-                    </div>
-                    <Spinner/>
-                    <div className="chat-footer">
-                        <textarea  placeholder="Type a message" ></textarea>
-                        <div className="shortcut-icons">
-                            <div className="attachment-icons">
-                                <Paperclip className="icons"/>
-                                <Smile className="icons"/>
-                                <AtSign className="icons"/>
-                                <span>|</span>
-                                <Camera className="icons"/>
-                                <Mic className="icons"/>
-                            </div>
-        
-                            <div className="send-icon">
-                                <SendHorizontal className="icons"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <section className="blank-page"></section>
         )
     } else {
         return (
@@ -186,28 +143,23 @@ export const Channels = (props) => {
                 <div className="chat-container">
                     <div className="chat-header">
                         <div className="chat-profile">
-                            <img className="pp" src="src/assets/images/profile.jpg" alt="pp"/>
-                            <div className="chat-name">
-                                <h2>{channelInfo.name}</h2>
-                                <span>active</span>
-                            </div>
-                            <div>
-                            <UserPlus onClick={handleOpenModal} className="icons"/>
-                            <Modal handleAddMember={handleAddMember} showModal={showModal} handleClose={handleCloseModal}/>
-                            </div>
+                            <Hash className="hash-icon"/>
+                            <h2>{channelInfo.name}</h2>
                         </div>
+                        <UserPlus onClick={handleOpenModal} className="icons"/>
+                        <Modal handleAddMember={handleAddMember} showModal={showModal} handleClose={handleCloseModal}/>
                     </div>
-        
-                    <ul>
+                    
+                    <div className="chat-box">
                         {dms.map(dm => {
-                                return (<>
-                                    <Message response = {dm}/>
-                                </>)}
+                            return (<>
+                                <Message response = {dm}/>
+                            </>)}
                         )}
-                    </ul>
-        
+                    </div>
+
                     <div className="chat-footer">
-                        <textarea value={message} onChange={handleChange} placeholder="Type a message" ></textarea>
+                        <textarea value={message} onChange={handleChange} placeholder="Say something..." ></textarea>
                         <div className="shortcut-icons">
                             <div className="attachment-icons">
                                 <Paperclip className="icons"/>
@@ -229,31 +181,30 @@ export const Channels = (props) => {
     }
 }
 
-
 const Message = (props) => {
     const response = props.response;
 
     return (   
-        <li>             
-            <div className="chat-box">
+        <ul>
+            <li className="chat-list">
                 <div className="sender">
-                    <div className="chat-message">
-                        <h2>{response.sender.email}</h2>
-                        <span>{extractHourAndMinutes(response.created_at)}</span>
-                        <span>{response.body}</span>
-                    </div>
                     <img className="pp" src="src/assets/images/profile.jpg" alt="pp"/>
+                    <div className="chat-message">
+                        <h2 className="name">
+                            {response.sender.email} 
+                            <span className="date-time">{extractHourAndMinutes(response.created_at)}</span>
+                        </h2>
+                        <span className="message">{response.body}</span>
+                    </div>
                 </div>
-            </div>
-        </li>
+            </li>
+        </ul>
     )
-
 }
 
 const Modal = ({handleAddMember, showModal, handleClose }) => {
     const [showInnerModal, setShowInnerModal] = useState(false);
     const [inputValue, setInputValue] = useState('');
-
     const [users, setUsers] = useState([]);
     const [originalUsers, setOriginalUsers] = useState([]);
     const currentUser = getHeadersFromLocalStorage();
@@ -287,44 +238,51 @@ const Modal = ({handleAddMember, showModal, handleClose }) => {
         fetchUsers();
     }, [])
 
-    if (!showModal) {
-        return null;
-    }
-
     const searchUsers = (search,userArr) => {
         const regex = new RegExp(search, 'i');
     
         const filteredResults = userArr.filter(
             (user) => regex.test(user.email)
-          );
+        );
     
         setUsers(filteredResults);
     }
 
     const handleChange = (e) => {
         setInputValue(e.target.value);
-
         searchUsers(e.target.value,originalUsers);
-
         setShowInnerModal(true);
     }
 
     const getDataFromInnerModal = (userData) => {
-        console.log(userData);
         handleAddMember(userData.id);
         setShowInnerModal(false);
-      };
+    };
+
+    if (!showModal) {
+        return null;
+    }
 
     return (
         <div className="channel-modal">
             <div className="channel-modal-content">
-                <span className="close" onClick={handleClose}>
-                    &times;
-                </span>
+                <div className="channel-modal-header">
+                    <h2>Add people</h2>
+                    <span className="close" onClick={handleClose}>
+                        &times;
+                    </span>
+                </div>   
+
                 <form action="#">
-                    <input type="text" placeholder="Add more people" value={inputValue} onChange={handleChange}/>
-                    <InnerModal isFetchDone={isFetchDone} users={users} getDataFromInnerModal={getDataFromInnerModal} showInnerModal={showInnerModal}/>
-                    <button type="submit">Add</button>
+                    <div className="add-users">
+                        <input type="text" placeholder="Add more people" value={inputValue} onChange={handleChange}/>
+                        <InnerModal isFetchDone={isFetchDone} users={users} getDataFromInnerModal={getDataFromInnerModal} showInnerModal={showInnerModal}/>
+                        <div className="description">
+                            <span>Connect with more people.</span>
+                        </div>
+                    </div>
+
+                    <button type="submit" className="create-channel-button">Add</button>
                 </form>
             </div>
         </div>
@@ -332,44 +290,36 @@ const Modal = ({handleAddMember, showModal, handleClose }) => {
 }
 
 const InnerModal = ({isFetchDone, users, getDataFromInnerModal, showInnerModal}) => {
-
     if (!showInnerModal || !isFetchDone) {
         return null;
     }
 
     return (
-      <div className="inner-modal">
-        <div className="inner-modal-content">
-            <div>
-                <ul>
-                {
-                    users.map(userData => {
-                        return (<>
-                            <ModalCards getDataFromInnerModal={getDataFromInnerModal} userData={userData}/>
-                        </>)}
-                    )
-                    }
-                </ul>
+        <div className="dm-inner-modal">
+            <div className="inner-modal-content">
+                {users.map(userData => {
+                    return (<>
+                        <ModalCards getDataFromInnerModal={getDataFromInnerModal} userData={userData}/>
+                    </>)}
+                )}
             </div>
         </div>
-      </div>
     );
-  }
+}
 
-  const ModalCards = ({getDataFromInnerModal, userData}) => {
-
+const ModalCards = ({getDataFromInnerModal, userData}) => {
     const setId = () => {
         getDataFromInnerModal(userData);
     }
 
-    return(    
-        <li onClick={setId} className="channel-item">
-            <div className="channel-list">
-                <h2>{userData.email}</h2>
-            </div>
-        </li>
+    return(   
+        <ul>
+            <li onClick={setId} className="channel-item">
+                <h5>{userData.email}</h5>
+            </li>
+        </ul> 
     )
-  }
+}
 
 
 
