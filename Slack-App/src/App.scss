@@ -51,7 +51,7 @@ a{
 
 .blank-page{
     background-color: #1a1d21;
-    width: 63.5vw;
+    width: clamp(9.5rem, -4.357rem + 69.286vw, 58rem)
 }
 
 

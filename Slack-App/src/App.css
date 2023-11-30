@@ -46,7 +46,7 @@ a {
 
 .blank-page {
   background-color: #1a1d21;
-  width: 63.5vw;
+  width: clamp(9.5rem, -4.357rem + 69.286vw, 58rem);
 }
 
 .sidebar-container {
@@ -424,6 +424,7 @@ a {
 .channelSidebar-header .icons {
   width: clamp(0.5rem, 0.214rem + 1.429vw, 1.5rem);
   margin-right: clamp(0.5rem, 0.143rem + 0.952vw, 1rem);
+  cursor: pointer;
 }
 
 .channel-search {
@@ -625,14 +626,12 @@ a {
   justify-content: space-between;
   align-items: center;
   color: white;
-  height: 10vh;
   width: clamp(9.5rem, -4.357rem + 69.286vw, 58rem);
 }
 
 .chat-profile {
   display: flex;
   align-items: center;
-  cursor: pointer;
   margin-left: clamp(0.5rem, 0.143rem + 0.952vw, 1rem);
   width: clamp(5rem, 0.714rem + 21.429vw, 20rem);
 }
@@ -650,10 +649,11 @@ a {
 .chat-header .icons {
   width: clamp(0.5rem, 0.214rem + 1.429vw, 1.5rem);
   margin-right: clamp(0.5rem, 0.143rem + 0.952vw, 1rem);
+  cursor: pointer;
 }
 
 .chat-box {
-  height: 70vh;
+  height: 80vh;
   overflow: auto;
 }
 
@@ -732,6 +732,7 @@ a {
   color: #adaeaf;
   margin: 0 auto 0.25rem auto;
   width: clamp(8rem, -5.429rem + 67.143vw, 55rem);
+  cursor: pointer;
 }
 
 .chat-footer .attachment-icons {

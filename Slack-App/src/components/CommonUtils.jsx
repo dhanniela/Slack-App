@@ -4,7 +4,6 @@ export const getHeadersFromLocalStorage = () => {
     return currentUser;
 }
 
-
 export const extractHourAndMinutes = (dateString) => {
     const dateObj = new Date(dateString);
     const hours = dateObj.getHours();
