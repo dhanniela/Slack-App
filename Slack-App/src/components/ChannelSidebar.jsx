@@ -9,9 +9,14 @@ import { set } from "lodash";
 
 export const ChannelSidebar = () => {
     const [channels, setChannels] = useState([]);
+    const [originalChannels, setOriginalChannels] = useState([]);
+
     const [channelTargetId, setChannelTargetId] = useState(0);
 
     const [channelData, setChannelData] = useState([]);
+
+    const [searchInput, setSearchInput] = useState("");
+    const [searchTerm, setSearchTerm] = useState("");
 
     const currentUser = getHeadersFromLocalStorage();
     const [dms, setDms] = useState([]);
@@ -57,6 +62,7 @@ export const ChannelSidebar = () => {
             } else {
                 setErrorFound(false);
                 setChannels(data.data);
+                setOriginalChannels(data.data)
             }
         } catch (error) {
             console.error(`Error fetching channels:`, error);
@@ -119,6 +125,32 @@ export const ChannelSidebar = () => {
         return () => clearInterval(interval);
     }, []);
 
+    const searchChannel = (search,channelDataArr) => {
+        console.log("asdasd");
+        const regex = new RegExp(search, 'i');
+    
+        const filteredResults = channelDataArr.filter(
+            (channel) => regex.test(channel.name)
+          );
+    
+        setChannels(filteredResults);
+    }
+
+    const handleSearch = (value) => {
+        searchChannel(value,originalChannels);
+    };
+
+    const debouncedSearch = _debounce(handleSearch, 2000);
+
+    const handleChange = (e) => {
+       const { value } = e.target;
+
+        setSearchInput(value);
+        console.log(searchInput);
+
+        debouncedSearch(value);
+      };
+
     if(!isFetchChannelDone || errorFound) {
         return (
             <div className="channel-container">
@@ -159,7 +191,7 @@ export const ChannelSidebar = () => {
                         <div className="channel-search">
                             <div className="channel-searchBar">
                                 <Search className="icons"/>
-                                <input id="search-channel" type="text" placeholder="Find a channel"/>
+                                <input value={searchInput} onChange={handleChange}  id="search-channel" type="text" placeholder="Find a channel"/>
                             </div>
                         </div>
 
