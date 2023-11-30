@@ -87,6 +87,16 @@ export const DMSidebar = () => {
         setInputValue("");
     }
 
+
+
+    const showDms = (userData) => {
+        setUserTargetId(userData.id);
+        setUserInfo(userData);
+
+        console.log(userTargetId);
+        setRenderUserDms(true);
+    }
+
     if(loading) {
         return <div className="dmSidebar-container">
         <div className="dmSidebar-header">
@@ -127,12 +137,12 @@ export const DMSidebar = () => {
         const handleChange = (e) => {
             const { value } = e.target;
             setSearchTerm(value);
-
+    
             handleInputChange(e);
         
             debouncedSearch(value);
           };
-
+          
         return (
             <div className="dm-container">
                 <section>
@@ -157,7 +167,7 @@ export const DMSidebar = () => {
                                 recentDms != undefined?
                                     recentDms.map(user => {
                                         return(<>
-                                            <RecentMessages userData={user}/>
+                                            <RecentMessages showDms={showDms} userData={user}/>
                                         </>)
                                     }):<div>Recent Messages Here</div>
                                 }
@@ -220,9 +230,13 @@ const Modal = ({ selectUser, showModal, handleClose, users }) => {
     );
   };
 
-  const RecentMessages = ({userData}) => {
+  const RecentMessages = ({showDms ,userData}) => {
+
     const handleClick = () => {
+        showDms(userData);
     }
+
+
     return (
         <li onClick={handleClick} className="dm-item">
             <div className="dms-list">
