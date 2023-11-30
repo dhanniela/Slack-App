@@ -61,6 +61,7 @@
     outline: none;
     border: none;
     background: transparent;
+    color: #ffffffba;
 }
 
 .channel-list-container{
@@ -216,7 +217,7 @@
 
 .dm-inner-modal{
     position: fixed;
-    top:  48.5%;
+    top:  52%;
     left: clamp(3rem, -5.457rem + 42.286vw, 32.6rem);
     width: clamp(14rem, 10.857rem + 15.714vw, 25rem);
     z-index: 2;

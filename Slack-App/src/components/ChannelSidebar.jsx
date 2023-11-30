@@ -339,11 +339,12 @@ const Modal = ({addNewChannel, showModal, handleClose }) => {
                         <InnerModal isFetchDone={isFetchDone} users={users} handleCloseInnerModal={getUserIdsFromModal} showInnerModal={showInnerModal}/>
                         <div className="description">
                             {
-                                usersData !== (undefined)? (usersData.map(userData => {
+                                usersData !== (undefined)? 
+                                 (usersData.map(userData => {
                                     return (
                                         <div>{userData.email}</div>
                                     )
-                                })) : (<span>Connect with more people.</span>)
+                                })):(<span>Connect with more people.</span>)
                             }                       
                         </div>
                     </div>

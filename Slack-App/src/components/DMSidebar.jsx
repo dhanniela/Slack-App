@@ -44,7 +44,7 @@ export const DMSidebar = () => {
         } else {
           handleCloseModal();
         }
-      };
+    };
   
     const fetchUsers = async () => {
         const get  = {
@@ -88,24 +88,30 @@ export const DMSidebar = () => {
     }
 
     if(loading) {
-        return <div className="dmSidebar-container">
-        <div className="dmSidebar-header">
-            <h2>Direct messages</h2>
-            <PenSquare className="icons"/>
-        </div>
+        return (
+            <div className="dm-container">
+                <section>
+                    <div className="dmSidebar-container">
+                        <div className="dmSidebar-header">
+                            <h2>Direct messages</h2>
+                            <PenSquare className="icons"/>
+                        </div>
 
-        <div className="dm-search">
-            <div className="dm-searchBar">
-                <Search className="icons"/>
-                <input id="search-dm" type="text" placeholder="Find a DM"/>
+                        <div className="dm-search">
+                            <div className="dm-searchBar">
+                                <Search className="icons"/>
+                                <input id="search-dm" type="text" placeholder="Find a DM"/>
+                            </div>
+                        </div>
+
+                        <div className="dms-list-container">
+                            <Spinner />
+                        </div>
+                    </div>
+                </section>
+                <section className="blank-page"></section>
             </div>
-        </div>
-
-        <div className="dms-list-container">
-            <Spinner />
-        </div>
-        <DirectMessage/>
-    </div>
+        )
     }
     else {
         const searchUsers = (search,userArr) => {
@@ -126,12 +132,11 @@ export const DMSidebar = () => {
 
         const handleChange = (e) => {
             const { value } = e.target;
-            setSearchTerm(value);
 
+            setSearchTerm(value);
             handleInputChange(e);
-        
             debouncedSearch(value);
-          };
+        };
 
         return (
             <div className="dm-container">
@@ -146,30 +151,66 @@ export const DMSidebar = () => {
                             <div className="dm-searchBar">
                                 <Search className="icons"/>
                                 <input onChange={handleChange} value={inputValue} id="search-dm" type="text" placeholder="Find a DM"/>
-                                <Modal selectUser={selectUser} showModal={showModal} users={users} handleClose={handleCloseModal} />
-                                
+                                <Modal selectUser={selectUser} showModal={showModal} users={users} handleClose={handleCloseModal} /> 
                             </div>
                         </div>
 
                         <div className="dms-list-container">
-                            <ul>
-                                {
+                            {
                                 recentDms != undefined?
-                                    recentDms.map(user => {
-                                        return(<>
-                                            <RecentMessages userData={user}/>
-                                        </>)
-                                    }):<div>Recent Messages Here</div>
-                                }
-                            </ul>
+                                recentDms.map(user => {
+                                    return(<>
+                                        <RecentMessages userData={user}/>
+                                    </>)
+                                }):<div>Recent Messages Here</div>
+                            }
                         </div>
                     </div>
                 </section>
-                <DirectMessage userInfo={userInfo} userTargetId = {userTargetId} renderUserDms = {renderUserDms} />
+                <DirectMessage userInfo={userInfo} userTargetId={userTargetId} renderUserDms={renderUserDms} />
             </div>
         )
     }
 }
+
+const RecentMessages = ({userData}) => {
+    const handleClick = () => {
+    }
+
+    return (
+        <ul>
+            <li onClick={handleClick} className="dm-item">
+                <div className="dms-list">
+                    <img className="pp" src="src/assets/images/profile.jpg" alt="pp"/>
+                    <h5>{userData.email}</h5>
+                </div>
+            </li>
+        </ul>
+    )
+}
+
+const Modal = ({ selectUser, showModal, handleClose, users }) => {
+    if (!showModal) {
+      return null;
+    }
+  
+    return (
+        <div className="dm-modal">
+            <div className="dm-modal-content">
+                <span className="close" onClick={handleClose}>
+                    &times;
+                </span>
+                <div className="dms-list-container">
+                    {users.map(userData => {
+                        return (<>
+                            <DMSideLi selectUser={selectUser} userData = {userData}/>
+                        </>)}
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+};
 
 const DMSideLi = ({selectUser, userData}) => {
     const handleClick = () => {
@@ -177,67 +218,16 @@ const DMSideLi = ({selectUser, userData}) => {
     }
 
     return (
-        <li onClick={handleClick} className="dm-item">
-            <div className="dms-list">
-                <img className="dm-pp" src="src/assets/images/profile.jpg" alt="pp"/>
-                <div className="right">
-                    <div className="dm-chat-name">
-                        <h5>{userData.email}</h5>
-                        <span>September 28</span>
-                    </div>
-                    <div className="dm-truncate">
-                        <span>hello</span>
-                    </div>
+        <ul>
+            <li onClick={handleClick} className="dm-item">
+                <div className="dms-list">
+                    <img className="dm-pp" src="src/assets/images/profile.jpg" alt="pp"/>
+                    <h5>{userData.email}</h5>
                 </div>
-            </div>
-        </li>
+            </li>
+        </ul>
     )
 }
 
-const Modal = ({ selectUser, showModal, handleClose, users }) => {
-
-    if (!showModal) {
-      return null;
-    }
-  
-    return (
-      <div className="channel-modal">
-        <div className="channel-modal-content">
-          <span className="close" onClick={handleClose}>
-            &times;
-          </span>
-          <div className="dms-list-container">
-                <ul>
-                    {users.map(userData => {
-                        return (<>
-                            <DMSideLi selectUser={selectUser} userData = {userData}/>
-                        </>)}
-                    )}
-                </ul>
-            </div>
-        </div>
-      </div>
-    );
-  };
-
-  const RecentMessages = ({userData}) => {
-    const handleClick = () => {
-    }
-    return (
-        <li onClick={handleClick} className="dm-item">
-            <div className="dms-list">
-                <img className="dm-pp" src="src/assets/images/profile.jpg" alt="pp"/>
-                <div className="right">
-                    <div className="dm-chat-name">
-                        <h5>{userData.email}</h5>
-                        <span>September 28</span>
-                    </div>
-                    <div className="dm-truncate">
-                        <span>hello</span>
-                    </div>
-                </div>
-            </div>
-        </li>
-    )
-}
+ 
 

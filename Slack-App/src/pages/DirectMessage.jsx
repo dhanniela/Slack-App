@@ -70,7 +70,9 @@ export const DirectMessage = (props) => {
     } 
 
     if(loading){
-        return(<Spinner/>);
+        return  (
+            <section className="blank-page"></section>
+        );
     }
     else {
         return (

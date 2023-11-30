@@ -281,8 +281,6 @@ const Modal = ({handleAddMember, showModal, handleClose }) => {
                             <span>Connect with more people.</span>
                         </div>
                     </div>
-
-                    <button type="submit" className="create-channel-button">Add</button>
                 </form>
             </div>
         </div>
