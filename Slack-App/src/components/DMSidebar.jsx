@@ -87,6 +87,16 @@ export const DMSidebar = () => {
         setInputValue("");
     }
 
+
+
+    const showDms = (userData) => {
+        setUserTargetId(userData.id);
+        setUserInfo(userData);
+
+        console.log(userTargetId);
+        setRenderUserDms(true);
+    }
+
     if(loading) {
         return (
             <div className="dm-container">
@@ -160,7 +170,7 @@ export const DMSidebar = () => {
                                 recentDms != undefined?
                                 recentDms.map(user => {
                                     return(<>
-                                        <RecentMessages userData={user}/>
+                                        <RecentMessages showDms={showDms} userData={user}/>
                                     </>)
                                 }):<div>Recent Messages Here</div>
                             }
@@ -173,8 +183,9 @@ export const DMSidebar = () => {
     }
 }
 
-const RecentMessages = ({userData}) => {
+const RecentMessages = ({showDms ,userData}) => {
     const handleClick = () => {
+        showDms(userData);
     }
 
     return (
@@ -195,8 +206,8 @@ const Modal = ({ selectUser, showModal, handleClose, users }) => {
     }
   
     return (
-        <div className="dm-modal">
-            <div className="dm-modal-content">
+        <div className="channel-modal">
+            <div className="channel-modal-content">
                 <span className="close" onClick={handleClose}>
                     &times;
                 </span>
@@ -210,7 +221,8 @@ const Modal = ({ selectUser, showModal, handleClose, users }) => {
             </div>
         </div>
     );
-};
+  };
+
 
 const DMSideLi = ({selectUser, userData}) => {
     const handleClick = () => {
@@ -229,5 +241,4 @@ const DMSideLi = ({selectUser, userData}) => {
     )
 }
 
- 
 

@@ -16,7 +16,6 @@ export const DirectMessage = (props) => {
     const [ targetId, setTargetId ] = useState(receiverId);
     const [ user, setUser ] = useState(userInfo);
 
-
     const [message, setMessage] = useState("");
     const [dms, setDms] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -69,7 +68,7 @@ export const DirectMessage = (props) => {
         setMessage(e.target.value);
     } 
 
-    if(loading){
+    if(loading) {
         return  (
             <section className="blank-page"></section>
         );
@@ -81,23 +80,20 @@ export const DirectMessage = (props) => {
                     <div className="chat-header">
                         <div className="chat-profile">
                             <img className="pp" src="src/assets/images/profile.jpg" alt="pp"/>
-                            <div className="chat-name">
-                                <h2>{user.email}</h2>
-                                <span>active</span>
-                            </div>
+                            <h2>{user.email}</h2>
                         </div>
                     </div>
-        
-                    <ul>
+
+                    <div className="chat-box">
                         {dms.map(dm => {
-                                    return (<>
-                                        <Message response = {dm}/>
-                                    </>)}
-                                )}
-                    </ul>
+                            return (<>
+                                <Message response = {dm}/>
+                            </>)}
+                        )}
+                    </div>
         
                     <div className="chat-footer">
-                        <textarea value={message} placeholder="Type a message" onChange={handleChange}></textarea>
+                        <textarea value={message} placeholder="Say something..." onChange={handleChange}></textarea>
                         <div className="shortcut-icons">
                             <div className="attachment-icons">
                                 <Paperclip className="icons"/>
@@ -123,17 +119,19 @@ const Message = (props) => {
     const response = props.response;
 
     return (   
-        <li>             
-            <div className="chat-box">
+        <ul>
+            <li className="chat-list">
                 <div className="sender">
-                    <div className="chat-message">
-                        <h2>{response.sender.email}</h2>
-                        <span>{extractHourAndMinutes(response.created_at)}</span>
-                        <span>{response.body}</span>
-                    </div>
                     <img className="pp" src="src/assets/images/profile.jpg" alt="pp"/>
+                    <div className="chat-message">
+                        <h2 className="name">
+                            {response.sender.email} 
+                            <span className="date-time">{extractHourAndMinutes(response.created_at)}</span>
+                        </h2>
+                        <span className="message">{response.body}</span>
+                    </div>
                 </div>
-            </div>
-        </li>
+            </li>
+        </ul>
     )
 }
