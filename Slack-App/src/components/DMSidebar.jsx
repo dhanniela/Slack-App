@@ -206,12 +206,15 @@ const Modal = ({ selectUser, showModal, handleClose, users }) => {
     }
   
     return (
-        <div className="channel-modal">
-            <div className="channel-modal-content">
-                <span className="close" onClick={handleClose}>
-                    &times;
-                </span>
-                <div className="dms-list-container">
+        <div className="dm-modal">
+            <div className="dm-modal-content">
+                <div className="dm-modal-header">
+                    <span className="close" onClick={handleClose}>
+                        &times;
+                    </span>
+                </div>
+                
+                <div className="modal-list-container">
                     {users.map(userData => {
                         return (<>
                             <DMSideLi selectUser={selectUser} userData = {userData}/>
@@ -233,7 +236,7 @@ const DMSideLi = ({selectUser, userData}) => {
         <ul>
             <li onClick={handleClick} className="dm-item">
                 <div className="dms-list">
-                    <img className="dm-pp" src="src/assets/images/profile.jpg" alt="pp"/>
+                    <img className="pp" src="src/assets/images/profile.jpg" alt="pp"/>
                     <h5>{userData.email}</h5>
                 </div>
             </li>

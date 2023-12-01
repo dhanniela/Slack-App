@@ -11,7 +11,6 @@ export const Dashboard = (
     <Route path="/" element={<DashboardWrapper />}>
         <Route path="/sidedm" run="true" element={<DMSidebar/>}/>
         <Route path="/sidechannels" element={<ChannelSidebar/>}/>
-        <Route path="/home" element={<HomeSidebar/>}/>
+        {/* <Route path="/home" element={<HomeSidebar/>}/> */}
     </Route>
 );
-

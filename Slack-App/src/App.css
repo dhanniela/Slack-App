@@ -305,6 +305,7 @@ a {
   justify-content: center;
   color: white;
   margin: clamp(0.25rem, 0.179rem + 0.357vw, 0.5rem) 0;
+  position: relative;
 }
 
 .dm-searchBar {
@@ -364,6 +365,47 @@ a {
   align-items: center;
   font-size: clamp(0.5rem, 0.357rem + 0.714vw, 1rem);
   margin: 0 0 0 clamp(0.25rem, 0.179rem + 0.357vw, 0.5rem);
+}
+
+.dm-modal {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 100%;
+  max-height: 20rem;
+  width: clamp(8rem, 2.786rem + 26.071vw, 26.25rem);
+  background-color: 0, 0, 0, 0.5;
+}
+
+.dm-modal-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background: #131416;
+  max-height: 20rem;
+  width: clamp(8rem, 2.786rem + 26.071vw, 26.25rem);
+  border-radius: 0 0 0.5rem 0.5rem;
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.3);
+}
+
+.dm-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin: 0.25rem 0.25rem 0 0;
+  width: clamp(8rem, 2.786rem + 26.071vw, 26.25rem);
+  height: clamp(0.5rem, 0.143rem + 0.952vw, 1rem);
+}
+
+.modal-list-container {
+  width: clamp(8rem, 2.786rem + 26.071vw, 26.25rem);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.modal-list-container h5 {
+  font-size: clamp(0.25rem, 0.093rem + 0.786vw, 0.8rem);
 }
 
 .chat-container {
@@ -646,7 +688,7 @@ a {
 }
 
 .close {
-  font-size: clamp(1rem, 0.857rem + 0.714vw, 1.5rem);
+  font-size: clamp(0.5rem, 0.357rem + 0.714vw, 1rem);
   cursor: pointer;
   color: white;
 }
