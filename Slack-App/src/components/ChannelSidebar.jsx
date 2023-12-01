@@ -5,6 +5,7 @@ import { getHeadersFromLocalStorage } from "./CommonUtils";
 import { Spinner } from "./Spinner";
 import _debounce from 'lodash/debounce';
 import { Channels } from "../pages/Channels";
+import _ from 'lodash';
 import { set } from "lodash";
 
 export const ChannelSidebar = () => {
@@ -111,18 +112,34 @@ export const ChannelSidebar = () => {
         setChannelData(channelData);
 
         setRenderChannelDms(true);
+        
+        // const channelFromStorage = localStorage.getItem("recentChannels");
+        // if (channelFromStorage !== null){
+        //     console.log("asd");
+        //     setRecentChannels(JSON.parse(channelFromStorage));
+        //     console.log(recentChannels);
+        // }
 
-        recentChannels.map(channel => {
-            if (channel.id === channelData.id){
-                return 0;
+        if (recentChannels!=null){
+            recentChannels.map(channel => {
+                if (channel.id !== channelData.id){
+                    console.log("bawal");
+                    return null;
+                }
+            });
+
+            if (recentChannels.includes(channelData) === true) {
+                return null;
             }
-        })
+        }
 
         if (recentChannels.includes(channelData) === false) {
             recentChannels.push(channelData);
         }
 
-        setRecentChannels(recentChannels);
+        const filteredArray = _.uniqBy(recentChannels, 'id');
+
+        setRecentChannels(filteredArray);
         localStorage.setItem('recentChannels', JSON.stringify(recentChannels));
     }
 
@@ -133,6 +150,13 @@ export const ChannelSidebar = () => {
     }, [channelTargetId]);
 
     useEffect(() => {
+        
+        if (localStorage.getItem("recentChannels") != null){
+            setRecentChannels(JSON.parse(localStorage.getItem("recentChannels")));
+        } else {
+            setRecentChannels([]);
+        }
+
         const interval = setInterval(() => {
             fetchUserChannels();
         }, 10000);
