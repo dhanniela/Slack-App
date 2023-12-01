@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom/dist";
 export const HomeSidebar = () => {
     const [recentDms, setRecentDms] = useState([]);
     const [recentChannels, setRecentChannels] = useState([]);
+    const currentUser = getHeadersFromLocalStorage();
 
 
     useEffect(() => {
@@ -40,7 +41,7 @@ export const HomeSidebar = () => {
     return (
         <div className="dmSidebar-container">
             <div className="dmSidebar-header">
-                <h2>Email</h2>
+                <h2>{currentUser.uid}</h2>
                 {/* <PlusSquare className="icons"/> */}
             </div>
 
