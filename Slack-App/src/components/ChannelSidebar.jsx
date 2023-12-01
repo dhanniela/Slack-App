@@ -31,6 +31,8 @@ export const ChannelSidebar = () => {
     
     const [showModal, setShowModal] = useState(false);
 
+    const [recentChannels, setRecentChannels] = useState([]);
+
     //MODALS
     const handleOpenModal = () => {
         setShowModal(true);
@@ -109,6 +111,19 @@ export const ChannelSidebar = () => {
         setChannelData(channelData);
 
         setRenderChannelDms(true);
+
+        recentChannels.map(channel => {
+            if (channel.id === channelData.id){
+                return 0;
+            }
+        })
+
+        if (recentChannels.includes(channelData) === false) {
+            recentChannels.push(channelData);
+        }
+
+        setRecentChannels(recentChannels);
+        localStorage.setItem('recentChannels', JSON.stringify(recentChannels));
     }
 
     useEffect(() => {

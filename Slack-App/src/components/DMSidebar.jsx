@@ -72,7 +72,15 @@ export const DMSidebar = () => {
 
 
     useEffect(() => {
+
         fetchUsers();
+        const dmsFromStorage = localStorage.getItem("recentDms");
+
+        if (dmsFromStorage !== null){
+            console.log(JSON.parse(dmsFromStorage));
+            setRecentDms(JSON.parse(dmsFromStorage));
+        }
+
     }, []);
 
     const selectUser = (userData) => {
@@ -84,6 +92,8 @@ export const DMSidebar = () => {
 
         recentDms.push(userData);
         setRecentDms(recentDms);
+        localStorage.setItem('recentDms', JSON.stringify(recentDms));
+
         setInputValue("");
     }
 

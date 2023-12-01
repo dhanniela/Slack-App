@@ -43,8 +43,6 @@ export const Login = (props) => {
                         accessToken: response.headers.get('access-token'),
                         client: response.headers.get('client')
                     }
-
-                    localStorage.clear();
                     localStorage.setItem('currentUser', JSON.stringify(currentUser));
                 })
 
