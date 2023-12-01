@@ -4,8 +4,6 @@ import { Search, PenSquare, UserCircle2 } from "lucide-react";
 import { getHeadersFromLocalStorage } from "./CommonUtils";
 import { Spinner } from "./Spinner";
 import _debounce from 'lodash/debounce';
-import { useNavigate } from "react-router-dom/dist";
-import { useCallback } from "react";
 import { DirectMessage } from "../pages/DirectMessage";
 
 export const DMSidebar = () => {
@@ -17,8 +15,6 @@ export const DMSidebar = () => {
 
     const [userTargetId, setUserTargetId] = useState(0);
     const [renderUserDms, setRenderUserDms] = useState(false);
-
-    let latestUserId = 0;
 
     const [userInfo, setUserInfo] = useState({});
 

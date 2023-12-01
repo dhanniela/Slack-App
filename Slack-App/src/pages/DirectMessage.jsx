@@ -4,9 +4,6 @@ import { Paperclip, Camera, Mic, SendHorizontal, Smile, AtSign } from "lucide-re
 import {sendDms} from "../components/CommonUtils"
 import { getHeadersFromLocalStorage } from "../components/CommonUtils";
 import { extractHourAndMinutes } from "../components/CommonUtils";
-import { Spinner } from "../components/Spinner";
-import {getUserDmsSender} from "../components/CommonUtils"
-import { useParams } from 'react-router-dom';
 
 export const DirectMessage = (props) => {
     const receiverId = props.userTargetId;
@@ -20,7 +17,6 @@ export const DirectMessage = (props) => {
     const [dms, setDms] = useState([]);
     const [loading, setLoading] = useState(true);
     const currentUser = getHeadersFromLocalStorage();
-    const [timeGrouping,setTimeGrouping] = useState([]);
 
     const fetchDms = async (targetId) => {
         const get  = {

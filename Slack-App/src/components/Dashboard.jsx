@@ -1,7 +1,5 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { DirectMessage } from "../pages/DirectMessage";
-import { Sidebar } from "./sidebar/Sidebar";
 import { DMSidebar } from "./DMSidebar";
 import { DashboardWrapper } from "./DashboardWrapper.jsx";
 import { ChannelSidebar } from "./ChannelSidebar";

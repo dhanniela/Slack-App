@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useEffect } from "react";
-import { KeyRound, Mail, CheckCircle2, XCircle } from "lucide-react";
+import { KeyRound, Mail } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export const Register = () => {
@@ -30,7 +30,6 @@ export const Register = () => {
         //get response
         fetch('http://206.189.91.54/api/v1/auth', post)
         .then(response => {
-            console.log(response)
             //if 200 response
             if(response.status == 200){
                 localStorage.clear();
@@ -42,8 +41,6 @@ export const Register = () => {
                 }, 5000);
             } else { //if !=200
                 response.json().then(json => {
-                    console.log(json);
-
                     let errorMessage = "";
 
                     for(const message of json.errors.full_messages){
@@ -69,12 +66,20 @@ export const Register = () => {
 
     useEffect(() => {
         if (localStorage.getItem("currentUser")) {
-            navigate("/");
+            navigate("/home");
         }
     }, [navigate]);
 
     return (
         <div className="screen">
+            <div className="islak">
+                <img className="islak-logo" src="src/assets/images/logo.png" alt="logo"/>
+                <div className="islak-title-container">
+                    <h1 className="islak-title">islak</h1>
+                    <span className="islak-description">Instantly Share, Link, Assemble, <br/> and Keep the connection</span>
+                </div>
+            </div>
+
             <div className="form-box login">
                 <h2>Register</h2>
                 <form action="#" onSubmit={prepareRegister}>
@@ -100,7 +105,6 @@ export const Register = () => {
                     </div>
                     <button type="submit" className="btn">Register</button>
                     <div className="login-register">
-                        {/* put href in function */}
                         <p>Already have an account? <a href="/login" className="register-link">Login instead</a></p>
                     </div>
                 </form>

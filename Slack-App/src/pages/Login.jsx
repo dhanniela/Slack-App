@@ -28,10 +28,8 @@ export const Login = (props) => {
         //get response
         fetch('http://206.189.91.54/api/v1/auth/sign_in', post)
         .then(response => {
-            console.log(response)
             //if 200 response
             if(response.status == 200){
-                let userId = "";
 
                 response.json().then(json => {
 
@@ -46,10 +44,9 @@ export const Login = (props) => {
                     localStorage.setItem('currentUser', JSON.stringify(currentUser));
                 })
 
-                navigate("/");
+                navigate("/home");
 
                 window.location.reload();
-
             } else { //if !=200
                 response.json().then(json => {
 
@@ -70,14 +67,21 @@ export const Login = (props) => {
 
     useEffect(() => {
         if (localStorage.getItem("currentUser")) {
-            navigate("/");
+            navigate("/home");
         }
     }, [navigate]);
 
     return (
         <div className="screen">
+            <div className="islak">
+                <img className="islak-logo" src="src/assets/images/logo.png" alt="logo"/>
+                <div className="islak-title-container">
+                    <h1 className="islak-title">islak</h1>
+                    <span className="islak-description">Instantly Share, Link, Assemble, <br/> and Keep the connection</span>
+                </div>
+            </div>
             <div className="form-box login">
-                <h2>islak</h2>
+                <h2>Login</h2>
                 <form action="#" onSubmit={prepareLogin}>
                     <div className="input-box">
                         <Mail className="icon"/>
@@ -99,7 +103,6 @@ export const Login = (props) => {
                     </div>
                     <button type="submit" className="btn">Login</button>
                     <div className="login-register">
-                        {/* put href in function */}
                         <p>Don't have an account yet? <a href="/register" className="register-link">Register</a></p>
                     </div>
                 </form>

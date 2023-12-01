@@ -1,13 +1,8 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { UserPlus, Paperclip, Camera, Mic, SendHorizontal, Smile, AtSign, Hash } from "lucide-react";
-import { getUserDmsSender } from "../components/CommonUtils"
-import { sendDms } from "../components/CommonUtils"
-import { useParams } from 'react-router-dom';
 import { getHeadersFromLocalStorage } from "../components/CommonUtils";
 import { extractHourAndMinutes } from "../components/CommonUtils";
-import { ChannelSidebar } from "../components/ChannelSidebar";
-import { Spinner } from "../components/Spinner";
 
 export const Channels = (props) => {
     const channelTargetId = props.channelTargetId;
@@ -19,14 +14,6 @@ export const Channels = (props) => {
     const [loading, setLoading] = useState(true);
     const [dms, setDms] = useState(false);
     const [message, setMessage] = useState("");
-
-    const handleOpenModal = () => {
-        setShowModal(true);
-    };
-
-    const handleCloseModal = () => {
-        setShowModal(false);
-    };
 
     const fetchDms = async (targetId) => {
         const get  = {
@@ -133,6 +120,14 @@ export const Channels = (props) => {
         addMember(channelInfo.id, userTargetId);
     }
 
+    const handleOpenModal = () => {
+        setShowModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+    };
+    
     if(loading) {
         return (
             <section className="blank-page"></section>
@@ -318,6 +313,3 @@ const ModalCards = ({getDataFromInnerModal, userData}) => {
         </ul> 
     )
 }
-
-
-

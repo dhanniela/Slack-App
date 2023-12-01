@@ -8,15 +8,16 @@ export const extractHourAndMinutes = (dateString) => {
     const dateObj = new Date(dateString);
     const hours = dateObj.getHours();
     const minutes = dateObj.getMinutes();
-    const day = dateObj.getDay();
-    const month = dateObj.getMonth();
-    const year = dateObj.getYear();
+    // const day = dateObj.getDay();
+    // const month = dateObj.getMonth();
 
     // Format the hours and minutes with leading zeros if needed
     const formattedHours = String(hours).padStart(2, '0');
     const formattedMinutes = String(minutes).padStart(2, '0');
+    const month = dateObj.getMonth() + 1;
+    const day = dateObj.getDate();
 
-    return `${formattedHours}:${formattedMinutes} - ${day}/${month}/${year}`;
+    return `${day}/${month} ${formattedHours}:${formattedMinutes}`;
 }
 
 const currentUser = getHeadersFromLocalStorage();

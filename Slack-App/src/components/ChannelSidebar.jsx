@@ -3,10 +3,9 @@ import { useState } from "react";
 import { Search, PlusSquare, Hash } from "lucide-react";
 import { getHeadersFromLocalStorage } from "./CommonUtils";
 import { Spinner } from "./Spinner";
-import _debounce from 'lodash/debounce';
 import { Channels } from "../pages/Channels";
+import _debounce from 'lodash/debounce';
 import _ from 'lodash';
-import { set } from "lodash";
 
 export const ChannelSidebar = () => {
     const [channels, setChannels] = useState([]);
@@ -17,14 +16,9 @@ export const ChannelSidebar = () => {
     const [channelData, setChannelData] = useState([]);
 
     const [searchInput, setSearchInput] = useState("");
-    const [searchTerm, setSearchTerm] = useState("");
 
     const currentUser = getHeadersFromLocalStorage();
-    const [dms, setDms] = useState([]);
-    const [loading, setLoading] = useState(true);
     const [isFetchChannelDone, setIsFetchChannelDone] = useState(false); 
-    const [is, setIsFetchDMDone] = useState(false);   
-    const [isSearchDone, setIsSearchDone] = useState(false);
     const [renderChannelDms, setRenderChannelDms] = useState(false);
 
     const [errorFound, setErrorFound] = useState(false);
@@ -33,15 +27,6 @@ export const ChannelSidebar = () => {
     const [showModal, setShowModal] = useState(false);
 
     const [recentChannels, setRecentChannels] = useState([]);
-
-    //MODALS
-    const handleOpenModal = () => {
-        setShowModal(true);
-    };
-    
-    const handleCloseModal = () => {
-        setShowModal(false);
-    };
 
     //FETCH CHANNEL DMS
     const fetchUserChannels = async () => {
@@ -61,6 +46,7 @@ export const ChannelSidebar = () => {
 
             if (data.data == undefined){
                 setErrorFound(true);
+
                 setError(data.errors);
             } else {
                 setErrorFound(false);
@@ -74,6 +60,7 @@ export const ChannelSidebar = () => {
         }
     }
 
+    // creating new channel
     const postNewChannel = (channelName, receiverIds) => {
         const payload = {
             name: channelName,
@@ -102,28 +89,21 @@ export const ChannelSidebar = () => {
     }
 
     const addNewChannel = (channelName, receiverIds) => {
-        console.log(channelName, receiverIds);
-        postNewChannel(channelName,receiverIds);
+        postNewChannel(channelName, receiverIds);
         fetchUserChannels();
     }
 
+    //link to chat box of selected channel
     const selectCard = (channelData) => {
         setChannelTargetId(channelData.id);
         setChannelData(channelData);
 
         setRenderChannelDms(true);
-        
-        // const channelFromStorage = localStorage.getItem("recentChannels");
-        // if (channelFromStorage !== null){
-        //     console.log("asd");
-        //     setRecentChannels(JSON.parse(channelFromStorage));
-        //     console.log(recentChannels);
-        // }
 
+        // localStorage
         if (recentChannels!=null){
             recentChannels.map(channel => {
                 if (channel.id !== channelData.id){
-                    console.log("bawal");
                     return null;
                 }
             });
@@ -136,21 +116,15 @@ export const ChannelSidebar = () => {
         if (recentChannels.includes(channelData) === false) {
             recentChannels.push(channelData);
         }
-
+        // library para di magdoble, same lang dun sa if
         const filteredArray = _.uniqBy(recentChannels, 'id');
 
         setRecentChannels(filteredArray);
+
         localStorage.setItem('recentChannels', JSON.stringify(recentChannels));
     }
 
     useEffect(() => {
-        setChannelTargetId(channelTargetId, () => {
-            console.log('State updated:', channelTargetId);
-        });
-    }, [channelTargetId]);
-
-    useEffect(() => {
-        
         if (localStorage.getItem("recentChannels") != null){
             setRecentChannels(JSON.parse(localStorage.getItem("recentChannels")));
         } else {
@@ -160,12 +134,11 @@ export const ChannelSidebar = () => {
         const interval = setInterval(() => {
             fetchUserChannels();
         }, 10000);
-      
-        return () => clearInterval(interval);
+    
+        return () => clearInterval(interval); //to clear memory
     }, []);
 
-    const searchChannel = (search,channelDataArr) => {
-        console.log("asdasd");
+    const searchChannel = (search, channelDataArr) => {
         const regex = new RegExp(search, 'i');
     
         const filteredResults = channelDataArr.filter(
@@ -176,7 +149,7 @@ export const ChannelSidebar = () => {
     }
 
     const handleSearch = (value) => {
-        searchChannel(value,originalChannels);
+        searchChannel(value, originalChannels);
     };
 
     const debouncedSearch = _debounce(handleSearch, 2000);
@@ -185,10 +158,18 @@ export const ChannelSidebar = () => {
        const { value } = e.target;
 
         setSearchInput(value);
-        console.log(searchInput);
-
+        
         debouncedSearch(value);
       };
+
+    //MODALS
+    const handleOpenModal = () => {
+        setShowModal(true);
+    };
+    
+    const handleCloseModal = () => {
+        setShowModal(false);
+    };
 
     if(!isFetchChannelDone || errorFound) {
         return (
@@ -268,11 +249,10 @@ const ChannelCard = ({selectCard, channelData}) => {
     )
 }
 
-const Modal = ({addNewChannel, showModal, handleClose }) => {
+const Modal = ({ addNewChannel, showModal, handleClose }) => {
     const [users, setUsers] = useState([]);
     const [originalUsers, setOriginalUsers] = useState([]);
     const currentUser = getHeadersFromLocalStorage();
-    const [userTargetId, setUserTargetId] = useState(0);
     const [isFetchDone, setIsFetchDone] = useState(false);
     const [showInnerModal, setShowInnerModal] = useState(false);
     const [inputValue, setInputValue] = useState('');

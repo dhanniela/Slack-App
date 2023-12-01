@@ -6,7 +6,7 @@ export const Sidebar = () => {
     const navigate = useNavigate();
     
     const handleLogout = () => {
-        localStorage.setItem('currentUser', "");
+        localStorage.removeItem("currentUser")
 
         navigate("/login");
     }
