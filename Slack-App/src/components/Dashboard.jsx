@@ -7,7 +7,7 @@ import { HomeSidebar } from "./HomeSidebar.jsx";
 
 export const Dashboard = (
     <Route path="/" element={<DashboardWrapper />}>
-        <Route path="/sidedm" run="true" element={<DMSidebar/>}/>
+        <Route path="/sidedm" element={<DMSidebar/>}/>
         <Route path="/sidechannels" element={<ChannelSidebar/>}/>
         <Route path="/home" element={<HomeSidebar/>}/>
     </Route>
