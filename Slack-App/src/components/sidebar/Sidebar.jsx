@@ -1,5 +1,5 @@
 import { CustomLink } from "./Link";
-import { UserCircle2, Home, MessagesSquare, Hash, LogOut } from "lucide-react";
+import { Home, MessagesSquare, Hash, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export const Sidebar = () => {
@@ -7,7 +7,7 @@ export const Sidebar = () => {
     
     const handleLogout = () => {
         localStorage.removeItem("currentUser")
-
+        
         navigate("/login");
     }
 
